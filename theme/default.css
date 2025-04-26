@@ -1,0 +1,28 @@
+.lkt-modal {
+    --lkt-modal--background: #ffffff;
+
+    /** Element: Inner **/
+    --lkt-modal--inner--max-width: 640px;
+    --lkt-modal--inner--width: 100%;
+
+    /** Element: Back **/
+    --lkt-modal--back--background: rgba(0, 0, 0, .3);
+
+    /** Element: Header **/
+    --lkt-modal--header--height: auto;
+
+    /** Element: Pre-title **/
+    --lkt-modal--pre-title--padding: 15px;
+    --lkt-modal--pre-title--font-size: 14px;
+    --lkt-modal--pre-title--font-weight: 600;
+    --lkt-modal--pre-title--background: #000000;
+    --lkt-modal--pre-title--color: #ffffff;
+
+    /** Element: Title **/
+    --lkt-modal--title--padding: 15px;
+    --lkt-modal--title--font-size: 16px;
+    --lkt-modal--title--after-pre-title--font-size: 15px;
+
+    /** Element: Content **/
+    --lkt-modal--content--padding: 15px;
+}
