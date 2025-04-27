@@ -16,6 +16,10 @@ watch(route, (to) => {
 }, {flush: 'pre', immediate: true, deep: true});
 
 const item = ref(<WebPage>{});
+
+const redirectOnCreate = (id: string|number) => {
+    return `/admin/web-pages/${type.value}/${id}`;
+}
 </script>
 
 <template>
@@ -52,7 +56,8 @@ const item = ref(<WebPage>{});
                         router.back();
                     }
                 }
-            }
+            },
+            redirectOnCreate,
         }"
         :modal-crud-config="<ItemCrudConfig>{
             readResource: 'r-web-element',
