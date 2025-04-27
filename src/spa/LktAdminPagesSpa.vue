@@ -69,7 +69,7 @@ watch(items, v => {
 </script>
 
 <template>
-    <div class="spa-page lkt-grid-1">
+    <div class="lkt-admin-pages">
         <lkt-table
             ref="spaRef"
             v-model="items"

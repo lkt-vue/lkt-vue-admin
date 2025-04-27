@@ -48,7 +48,7 @@ const S = /* @__PURE__ */ m({
       ], 2);
     };
   }
-}), F = { class: "spa-page lkt-grid-1" }, I = /* @__PURE__ */ m({
+}), F = { class: "lkt-admin-pages" }, I = /* @__PURE__ */ m({
   __name: "LktAdminPagesSpa",
   setup(n) {
     const e = T();

@@ -32,6 +32,12 @@
     transition: all linear 400ms 100ms;
 }
 
+.lkt-admin-pages [data-column="details"] {
+    align-items: flex-end;
+    text-align: right !important;
+    width: 300px;
+}
+
 
 @media screen and (max-width: 959px) {
     .is-opened.lkt-admin-menu .lkt-menu-outside {
