@@ -17,6 +17,6 @@ const LktVueAdmin: Plugin = {
 
 export default LktVueAdmin;
 export const setupLktVueAdminRoutes = (router: Router) => {
-    router.addRoute({path: `/admin/web-pages/:type`, name: 'lkt-admin-pages', component: LktAdminPagesSpa});
-    router.addRoute({path: `/admin/web-page/:id`, name: 'lkt-admin-page', component: LktAdminPageSpa});
+    router.addRoute({path: '/admin/web-pages/:type', name: 'lkt-admin-pages', component: LktAdminPagesSpa});
+    router.addRoute({path: '/admin/web-pages/:type/:id', name: 'lkt-admin-page', component: LktAdminPageSpa});
 }

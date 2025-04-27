@@ -23,6 +23,7 @@ export default {
     rollupOptions: {
       external: [
         'vue',
+        'vue-router',
         'lkt-tools',
         'lkt-events',
         'lkt-vue-tools',

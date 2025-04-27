@@ -11,7 +11,7 @@ const computedMainMenu = computed(() => {
             type: MenuEntryType.Entry,
             icon: 'lkt-icn-webpage',
             anchor: {
-                to: '/admin/web-pages/web-pages',
+                to: '/admin/web-pages/web-page',
                 text: 'Pages',
                 events: {
                     click: () => {

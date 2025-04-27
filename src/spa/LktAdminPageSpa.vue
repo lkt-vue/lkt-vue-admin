@@ -6,7 +6,19 @@ import {
     ItemCrudConfig,
     ItemCrudMode, WebPage
 } from "lkt-vue-kernel";
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+
+
+const route = useRoute();
+
+const type = ref(route.params.type),
+    id = ref(route.params.id);
+
+watch(route, (to) => {
+    type.value = route.params.type;
+    id.value = route.params.id;
+}, {flush: 'pre', immediate: true, deep: true});
 
 const item = ref(<WebPage>{});
 </script>
@@ -17,7 +29,7 @@ const item = ref(<WebPage>{});
         :crud-config="<ItemCrudConfig>{
             readResource: 'r-web-page',
             readData: {
-                id: 2
+                id,
             },
             mode: ItemCrudMode.Update,
             buttonNavVisibility: ItemCrudButtonNavVisibility.Always,

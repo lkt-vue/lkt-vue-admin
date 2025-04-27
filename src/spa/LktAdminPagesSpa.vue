@@ -1,6 +1,29 @@
 <script setup lang="ts">
 import {computed, inject, Ref, ref, watch} from "vue";
-import {ButtonType, ColumnConfig, ColumnType, FieldType, TableConfig, TableRowType, TableType} from "lkt-vue-kernel";
+import {
+    ButtonType,
+    ColumnConfig,
+    ColumnType,
+    FieldType,
+    LktObject,
+    TableConfig,
+    TableRowType,
+    TableType
+} from "lkt-vue-kernel";
+import {useRoute} from "vue-router";
+
+
+const route = useRoute();
+
+console.log(route);
+
+const type = ref(route.params.type),
+    id = ref(route.params.id);
+
+watch(route, (to) => {
+    type.value = route.params.type;
+    id.value = route.params.id;
+}, {flush: 'pre', immediate: true, deep: true});
 
 let appSize = <Ref>inject('appSize');
 
@@ -33,7 +56,7 @@ const columns = computed(() => {
                 text: 'Details',
                 icon: 'lkt-icn-expand',
                 anchor: {
-                    to: '/admin/web-page/id',
+                    to: (data: LktObject) => `/admin/web-pages/${type.value}/${data.id}`,
                 }
             }
         },
