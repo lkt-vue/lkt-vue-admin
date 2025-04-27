@@ -1,5 +1,5 @@
-declare namespace q {
-    function install(n: any): void;
+declare namespace O {
+    function install(o: any): void;
 }
-declare function O(n: any): void;
-export { q as default, O as setupLktVueAdminRoutes };
+declare function W(o: any): void;
+export { O as default, W as setupLktVueAdminRoutes };

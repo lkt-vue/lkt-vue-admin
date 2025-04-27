@@ -32,6 +32,10 @@
     transition: all linear 400ms 100ms;
 }
 
+.lkt-admin-menu .lkt-menu {
+    transform: none;
+}
+
 .lkt-admin-pages [data-column="details"] {
     align-items: flex-end;
     text-align: right !important;

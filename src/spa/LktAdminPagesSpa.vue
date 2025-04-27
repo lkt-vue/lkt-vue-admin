@@ -87,6 +87,10 @@ watch(items, v => {
                 },
                 createButton: {
                     icon: 'lkt-icn-more',
+                    type: ButtonType.Anchor,
+                    anchor: {
+                        to: `/admin/web-pages/${type}/0`,
+                    }
                 },
                 itemsContainerClass: appSize === 'xs' ? 'lkt-grid-1 xs-grid-style' : '',
                 accordion: {

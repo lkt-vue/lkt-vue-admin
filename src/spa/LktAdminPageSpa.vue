@@ -1,16 +1,11 @@
 <script setup lang="ts">
 
-import {
-    FileBrowserConfig,
-    ItemCrudButtonNavVisibility,
-    ItemCrudConfig,
-    ItemCrudMode, WebPage
-} from "lkt-vue-kernel";
+import {FileBrowserConfig, ItemCrudButtonNavVisibility, ItemCrudConfig, ItemCrudMode, WebPage} from "lkt-vue-kernel";
 import {ref, watch} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 
-const route = useRoute();
+const route = useRoute(), router = useRouter();
 
 const type = ref(route.params.type),
     id = ref(route.params.id);
@@ -31,15 +26,32 @@ const item = ref(<WebPage>{});
             readData: {
                 id,
             },
-            mode: ItemCrudMode.Update,
+            mode: id > 0 ? ItemCrudMode.Update : ItemCrudMode.Create,
             buttonNavVisibility: ItemCrudButtonNavVisibility.Always,
             editing: true,
             perms: ['update'],
+            createButton: {
+                resource: 'mk-web-page',
+                resourceData: item,
+                text: 'Create',
+                disabled: false,
+            },
             updateButton: {
                 resource: 'up-web-page',
                 resourceData: item,
                 text: 'Update',
                 disabled: false,
+            },
+            dropButton: {
+                resource: 'rm-web-page',
+                resourceData: item,
+                text: 'Remove',
+                disabled: false,
+                events: {
+                    click: () => {
+                        router.back();
+                    }
+                }
             }
         }"
         :modal-crud-config="<ItemCrudConfig>{
