@@ -15,25 +15,25 @@ import {useRoute} from "vue-router";
 
 const route = useRoute();
 
-console.log(route);
-
 const type = ref(route.params.type),
     id = ref(route.params.id);
+
+const filters = ref({
+        name: '',
+        type: type.value,
+    }),
+    items = ref([]),
+    spaRef = ref(null);
 
 watch(route, (to) => {
     type.value = route.params.type;
     id.value = route.params.id;
+    filters.value.type = type.value;
 }, {flush: 'pre', immediate: true, deep: true});
 
 let appSize = <Ref>inject('appSize');
 
 if (!appSize) appSize = ref('');
-
-const filters = ref({
-        name: '',
-    }),
-    items = ref([]),
-    spaRef = ref(null);
 
 const columns = computed(() => {
     return <Array<ColumnConfig>>[
@@ -82,7 +82,7 @@ watch(items, v => {
                 requiredItemsForBottomCreate: 99,
                 columns,
                 paginator: {
-                    resource: 'ls-web-pages',
+                    resource: 'ls-web-pages-type',
                     resourceData: filters,
                 },
                 createButton: {

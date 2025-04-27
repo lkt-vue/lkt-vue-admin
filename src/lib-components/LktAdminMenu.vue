@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import {computed, inject, Ref} from "vue";
-import {MenuEntryConfig, MenuEntryType} from "lkt-vue-kernel";
+import {MenuEntryConfig, MenuEntryType, WebPageController} from "lkt-vue-kernel";
 
 const adminMenu = <Ref>inject('adminMenu');
 
 const computedMainMenu = computed(() => {
-    return <Array<MenuEntryConfig>>[
+    let r = <Array<MenuEntryConfig>>[
         {
             key: 'web-pages',
             type: MenuEntryType.Entry,
             icon: 'lkt-icn-webpage',
             anchor: {
-                to: '/admin/web-pages/web-page',
+                to: '/admin/web-pages/0',
                 text: 'Pages',
                 events: {
                     click: () => {
@@ -21,6 +21,25 @@ const computedMainMenu = computed(() => {
             }
         }
     ];
+
+    WebPageController.getPages().forEach(page => {
+        r.push({
+            key: page.code,
+            type: MenuEntryType.Entry,
+            icon: 'lkt-icn-webpage',
+            anchor: {
+                to: `/admin/web-pages/${page.id}`,
+                text: page.label,
+                events: {
+                    click: () => {
+                        adminMenu.value = false;
+                    }
+                }
+            }
+        })
+    })
+
+    return r;
 });
 </script>
 

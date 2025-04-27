@@ -36,7 +36,7 @@ const redirectOnCreate = (id: string|number) => {
             perms: ['update'],
             createButton: {
                 resource: 'mk-web-page',
-                resourceData: item,
+                resourceData: {...item, type},
                 text: 'Create',
                 disabled: false,
             },
