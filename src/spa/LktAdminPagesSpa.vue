@@ -5,10 +5,10 @@ import {
     ColumnConfig,
     ColumnType,
     FieldType,
-    LktObject,
+    LktObject, MenuEntryType,
     TableConfig,
     TableRowType,
-    TableType
+    TableType, WebPageController
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
 
@@ -63,6 +63,17 @@ const columns = computed(() => {
     ];
 })
 
+const computedTitle = computed(() => {
+    let r = 'Web Pages';
+    WebPageController.getPages().forEach(page => {
+        if (page.id == type.value) {
+            r = page.label ?? 'Web Pages';
+            return;
+        }
+    })
+    return r;
+})
+
 watch(items, v => {
     console.log(v);
 })
@@ -76,7 +87,7 @@ watch(items, v => {
             v-bind="<TableConfig>{
                 type: appSize === 'xs' ? TableType.Accordion : TableType.Table,
                 rowDisplayType: TableRowType.PreferColumns,
-                title: 'Web Pages',
+                title: computedTitle,
                 titleTag: 'h1',
                 editMode: true,
                 requiredItemsForBottomCreate: 99,

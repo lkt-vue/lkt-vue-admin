@@ -42,6 +42,12 @@
     width: 300px;
 }
 
+.lkt-button.lkt-admin-button {
+    --lkt-button--background: transparent;
+    --lkt-button--min-width: initial;
+    --lkt-button--border-width: 0;
+}
+
 
 @media screen and (max-width: 959px) {
     .is-opened.lkt-admin-menu .lkt-menu-outside {

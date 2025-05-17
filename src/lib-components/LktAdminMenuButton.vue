@@ -11,8 +11,8 @@ const adminMenu = <Ref>inject('adminMenu');
         v-model:checked="adminMenu"
         v-bind="<ButtonConfig>{
             type: ButtonType.HiddenSwitch,
-            icon: 'lkt-icn-upload',
-            text: 'Admin button, baby',
+            icon: 'lkt-icn-lkt',
+            class: 'lkt-admin-button'
         }"
     />
 </template>
