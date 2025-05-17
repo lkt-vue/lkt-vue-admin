@@ -46,6 +46,8 @@
     --lkt-button--background: transparent;
     --lkt-button--min-width: initial;
     --lkt-button--border-width: 0;
+    --lkt-button--font-size: 31px;
+    --lkt-button--padding: 0;
 }
 
 
