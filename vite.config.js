@@ -27,7 +27,7 @@ export default {
         'lkt-tools',
         'lkt-events',
         'lkt-vue-tools',
-        'lkt-http',
+        'lkt-http-client',
         'lkt-data-state',
         'lkt-modal-confirm',
         'lkt-fields',

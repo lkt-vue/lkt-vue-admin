@@ -1,5 +1,6 @@
-declare namespace G {
-    function install(l: any): void;
+declare namespace se {
+    function install(n: any): void;
 }
-declare function J(l: any): void;
-export { G as default, J as setupLktVueAdminRoutes };
+declare function ie(): void;
+declare function ue(n: any): void;
+export { se as default, ie as setupAdminTranslationsHttp, ue as setupLktVueAdminRoutes };

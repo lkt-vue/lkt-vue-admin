@@ -50,6 +50,14 @@
     --lkt-button--padding: 0;
 }
 
+.lkt-admin-spa {
+    padding: 15px;
+}
+
+.lkt-admin-spa .lkt-table .lkt-field--read-value {
+    text-wrap: wrap;
+}
+
 
 @media screen and (max-width: 959px) {
     .is-opened.lkt-admin-menu .lkt-menu-outside {

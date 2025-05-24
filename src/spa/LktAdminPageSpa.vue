@@ -23,67 +23,69 @@ const redirectOnCreate = (id: string|number) => {
 </script>
 
 <template>
-    <lkt-web-page
-        v-model="item"
-        :crud-config="<ItemCrudConfig>{
-            readResource: 'r-web-page',
-            readData: {
-                id,
-            },
-            mode: id > 0 ? ItemCrudMode.Update : ItemCrudMode.Create,
-            buttonNavVisibility: ItemCrudButtonNavVisibility.Always,
-            editing: true,
-            perms: ['update'],
-            createButton: {
-                resource: 'mk-web-page',
-                resourceData: {...item, type},
-                text: 'Create',
-                disabled: false,
-            },
-            updateButton: {
-                resource: 'up-web-page',
-                resourceData: item,
-                text: 'Update',
-                disabled: false,
-            },
-            dropButton: {
-                resource: 'rm-web-page',
-                resourceData: item,
-                text: 'Remove',
-                disabled: false,
-                events: {
-                    click: () => {
-                        router.back();
+    <section class="lkt-admin-spa">
+        <lkt-web-page
+            v-model="item"
+            :crud-config="<ItemCrudConfig>{
+                readResource: 'r-web-page',
+                readData: {
+                    id,
+                },
+                mode: id > 0 ? ItemCrudMode.Update : ItemCrudMode.Create,
+                buttonNavVisibility: ItemCrudButtonNavVisibility.Always,
+                editing: true,
+                perms: ['update'],
+                createButton: {
+                    resource: 'mk-web-page',
+                    resourceData: {...item, type},
+                    text: 'Create',
+                    disabled: false,
+                },
+                updateButton: {
+                    resource: 'up-web-page',
+                    resourceData: item,
+                    text: 'Update',
+                    disabled: false,
+                },
+                dropButton: {
+                    resource: 'rm-web-page',
+                    resourceData: item,
+                    text: 'Remove',
+                    disabled: false,
+                    events: {
+                        click: () => {
+                            router.back();
+                        }
                     }
-                }
-            },
-            redirectOnCreate,
-        }"
-        :modal-crud-config="<ItemCrudConfig>{
-            readResource: 'r-web-element',
-            createButton: {
-                resource: 'mk-web-element',
-            },
-            updateButton: {
-                resource: 'up-web-element',
-            },
-            dropButton: {
-                resource: 'rm-web-element',
-            },
-        }"
+                },
+                redirectOnCreate,
+            }"
+            :modal-crud-config="<ItemCrudConfig>{
+                readResource: 'r-web-element',
+                createButton: {
+                    resource: 'mk-web-element',
+                },
+                updateButton: {
+                    resource: 'up-web-element',
+                },
+                dropButton: {
+                    resource: 'rm-web-element',
+                },
+            }"
 
-        :file-browser-config="<FileBrowserConfig>{
-            http: {
-                resource: 'file-browser'
-            },
-            entityCreateButton: {
-                text: 'Create',
-                resource: 'mk-file-entity',
-            },
-            entityUpdateButton: {
-                text: 'Update',
-                resource: 'up-file-entity',
-            }
-        }"
-    />
+            :file-browser-config="<FileBrowserConfig>{
+                http: {
+                    resource: 'file-browser'
+                },
+                entityCreateButton: {
+                    text: 'Create',
+                    resource: 'mk-file-entity',
+                },
+                entityUpdateButton: {
+                    text: 'Update',
+                    resource: 'up-file-entity',
+                }
+            }"
+        />
+    </section>
 </template>

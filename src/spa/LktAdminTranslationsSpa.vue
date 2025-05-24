@@ -9,28 +9,23 @@ import {
     LktObject,
     TableConfig,
     TableRowType,
-    TableType,
-    WebPageController
+    TableType
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
 
 
 const route = useRoute();
 
-const type = ref(route.params.type),
-    id = ref(route.params.id);
+const id = ref(route.params.id);
 
 const filters = ref({
         name: '',
-        type: type.value,
     }),
     items = ref([]),
     spaRef = ref(null);
 
 watch(route, (to) => {
-    type.value = route.params.type;
     id.value = route.params.id;
-    filters.value.type = type.value;
 }, {flush: 'pre', immediate: true, deep: true});
 
 let appSize = <Ref<AppSize>>inject('lktAppSize');
@@ -41,12 +36,34 @@ const columns = computed(() => {
     return <Array<ColumnConfig>>[
         {
             type: ColumnType.Field,
-            key: 'name',
-            label: '__:common.column.name',
+            key: 'property',
+            label: 'Property',
             isForAccordionHeader: true,
             field: {
                 type: FieldType.Text,
-                icon: 'lkt-icn-webpage',
+                icon: 'lkt-icn-lang-picker',
+            }
+        },
+        {
+            type: ColumnType.Field,
+            key: 'type',
+            label: 'Type',
+            ensureFieldLabel: appSize.value < AppSize.MD,
+            field: {
+                type: FieldType.Select,
+                options: [FieldType.Text, FieldType.Textarea],
+            }
+        },
+        {
+            type: ColumnType.Field,
+            key: 'value',
+            label: 'Value',
+            ensureFieldLabel: appSize.value < AppSize.MD,
+            field: {
+                type: 'prop:type',
+                readModeConfig: {
+                    textMaxLength: 10,
+                }
             }
         },
         {
@@ -58,7 +75,7 @@ const columns = computed(() => {
                 text: 'Details',
                 icon: 'lkt-icn-expand',
                 anchor: {
-                    to: (data: LktObject) => `/admin/web-pages/${type.value}/${data.id}`,
+                    to: (data: LktObject) => `/admin/i18n/${data.id}`,
                 }
             }
         },
@@ -66,13 +83,7 @@ const columns = computed(() => {
 })
 
 const computedTitle = computed(() => {
-    let r = 'Web Pages';
-    WebPageController.getPages().forEach(page => {
-        if (page.id == type.value) {
-            r = page.label ?? 'Web Pages';
-            return;
-        }
-    })
+    let r = 'Translations';
     return r;
 })
 
@@ -82,7 +93,7 @@ watch(items, v => {
 </script>
 
 <template>
-    <section class="lkt-admin-spa lkt-admin-pages">
+    <section class="lkt-admin-spa lkt-admin-translations">
         <lkt-table
             ref="spaRef"
             v-model="items"
@@ -91,19 +102,20 @@ watch(items, v => {
                 rowDisplayType: TableRowType.PreferColumns,
                 title: computedTitle,
                 titleTag: 'h1',
-                titleIcon: 'lkt-icn-webpage',
+                titleIcon: 'lkt-icn-lang-picker',
                 editMode: true,
                 requiredItemsForBottomCreate: 99,
                 columns,
                 paginator: {
-                    resource: 'ls-web-pages-type',
+                    resource: 'ls-lkt-i18n',
                     resourceData: filters,
                 },
                 createButton: {
                     icon: 'lkt-icn-more',
+                    text: 'Add translation',
                     type: ButtonType.Anchor,
                     anchor: {
-                        to: `/admin/web-pages/${type}/0`,
+                        to: `/admin/i18n/new`,
                     }
                 },
                 itemsContainerClass: appSize < AppSize.MD ? 'lkt-grid-1 xs-grid-style' : '',

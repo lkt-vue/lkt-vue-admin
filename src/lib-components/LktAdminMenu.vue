@@ -39,6 +39,22 @@ const computedMainMenu = computed(() => {
         })
     })
 
+    r.push(
+        {
+            key: 'translations',
+            type: MenuEntryType.Entry,
+            icon: 'lkt-icn-lang-picker',
+            anchor: {
+                to: '/admin/i18n',
+                text: 'Translations',
+                events: {
+                    click: () => {
+                        adminMenu.value = false;
+                    }
+                }
+            }
+        })
+
     return r;
 });
 </script>
