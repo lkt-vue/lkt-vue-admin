@@ -75,10 +75,6 @@ const computedTitle = computed(() => {
     })
     return r;
 })
-
-watch(items, v => {
-    console.log(v);
-})
 </script>
 
 <template>

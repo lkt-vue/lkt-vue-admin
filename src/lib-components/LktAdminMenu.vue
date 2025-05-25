@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, Ref} from "vue";
-import {MenuEntryConfig, MenuEntryType, WebPageController} from "lkt-vue-kernel";
+import {MenuEntryConfig, MenuEntryType, WebItemsController, WebPageController} from "lkt-vue-kernel";
 
 const adminMenu = <Ref>inject('adminMenu');
 
@@ -30,6 +30,23 @@ const computedMainMenu = computed(() => {
             anchor: {
                 to: `/admin/web-pages/${page.id}`,
                 text: page.label,
+                events: {
+                    click: () => {
+                        adminMenu.value = false;
+                    }
+                }
+            }
+        })
+    })
+
+    WebItemsController.getItems().forEach(webItem => {
+        r.push({
+            key: webItem.code,
+            type: MenuEntryType.Entry,
+            icon: webItem.icon,
+            anchor: {
+                to: `/admin/web-items/${webItem.code}`,
+                text: webItem.labelMany,
                 events: {
                     click: () => {
                         adminMenu.value = false;
