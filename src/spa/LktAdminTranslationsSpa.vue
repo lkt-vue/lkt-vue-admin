@@ -13,6 +13,9 @@ import {
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
 
+const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
+if (!lktAdminEnabled.value) window.location.href = '/';
+
 
 const route = useRoute();
 
@@ -89,7 +92,7 @@ const computedTitle = computed(() => {
 </script>
 
 <template>
-    <section class="lkt-admin-spa lkt-admin-translations">
+    <section class="lkt-admin-spa lkt-admin-translations" v-if="lktAdminEnabled">
         <lkt-table
             ref="spaRef"
             v-model="items"

@@ -11,6 +11,9 @@ import {
 import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
+const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
+if (!lktAdminEnabled.value) window.location.href = '/';
+
 
 const route = useRoute(), router = useRouter();
 
@@ -33,7 +36,7 @@ const redirectOnCreate = (id: string|number) => {
 </script>
 
 <template>
-    <section class="lkt-admin-spa lkt-web-item-spa">
+    <section class="lkt-admin-spa lkt-web-item-spa" v-if="lktAdminEnabled">
         <lkt-item-crud
             v-model="item"
             v-bind="<ItemCrudConfig>{

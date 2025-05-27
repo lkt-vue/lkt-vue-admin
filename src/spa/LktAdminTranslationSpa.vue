@@ -10,8 +10,11 @@ import {
     ItemCrudMode,
     LktObject
 } from "lkt-vue-kernel";
-import {computed, ref, watch} from "vue";
+import {computed, inject, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+
+const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
+if (!lktAdminEnabled.value) window.location.href = '/';
 
 
 const route = useRoute(), router = useRouter();
@@ -68,7 +71,7 @@ const form = computed(() => {
 </script>
 
 <template>
-    <section class="lkt-admin-spa">
+    <section class="lkt-admin-spa" v-if="lktAdminEnabled">
         <lkt-item-crud
             v-model="item"
             v-bind="<ItemCrudConfig>{
