@@ -5,7 +5,7 @@ import {
     ButtonType,
     ColumnConfig,
     ColumnType,
-    FieldType,
+    FieldType, HeaderConfig,
     LktObject,
     TableConfig,
     TableRowType,
@@ -76,7 +76,7 @@ const columns = computed(() => {
             isForAccordionHeader: true,
             field: {
                 type: FieldType.Text,
-                icon: settings.icon,
+                icon: settings.value.icon,
             }
         },
         {
@@ -95,6 +95,15 @@ const columns = computed(() => {
     ];
 })
 
+const header = computed(() => {
+    let text = settings.value.labelMany ?? '';
+    return <HeaderConfig>{
+        text,
+        icon: settings.value.icon,
+        tag: 'h1',
+    }
+});
+
 onMounted(() => {
     ready.value = true;
 })
@@ -109,9 +118,6 @@ onMounted(() => {
             v-bind="<TableConfig>{
                 type: appSize < AppSize.MD ? TableType.Accordion : TableType.Table,
                 rowDisplayType: TableRowType.PreferColumns,
-                title: settings.labelMany,
-                titleTag: 'h1',
-                titleIcon: settings.icon,
                 editMode: true,
                 requiredItemsForBottomCreate: 99,
                 paginator: {
@@ -134,6 +140,7 @@ onMounted(() => {
                 },
                 ...settings.many,
                 columns,
+                header,
             }"
         />
     </section>

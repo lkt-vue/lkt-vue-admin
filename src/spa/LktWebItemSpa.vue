@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
 import {
-    FileBrowserConfig,
+    HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
     ItemCrudMode,
-    WebItemsController,
-    WebPage
+    LktObject,
+    WebItemsController
 } from "lkt-vue-kernel";
-import {ref, watch} from "vue";
+import {computed, inject, nextTick, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
@@ -18,17 +18,30 @@ if (!lktAdminEnabled.value) window.location.href = '/';
 const route = useRoute(), router = useRouter();
 
 const type = ref(route.params.type),
-    id = ref(route.params.id);
+    id = ref(route.params.id),
+    ready = ref(false);
 
 const settings = ref(WebItemsController.getWebItemSettings(type.value))
 
+const item = ref(<LktObject>{});
+
 watch(route, (to) => {
+    item.value = {};
     type.value = route.params.type;
     id.value = route.params.id;
+    ready.value = false;
     settings.value = WebItemsController.getWebItemSettings(type.value);
+    nextTick(() => ready.value = true);
 }, {flush: 'pre', immediate: true, deep: true});
 
-const item = ref(<WebPage>{});
+const header = computed(() => {
+    let text = settings.value.labelSingle ?? '';
+    return <HeaderConfig>{
+        text,
+        icon: settings.value.icon,
+        tag: 'h1',
+    }
+})
 
 const redirectOnCreate = (id: string|number) => {
     return `/admin/web-items/${type.value}/${id}`;
@@ -38,9 +51,9 @@ const redirectOnCreate = (id: string|number) => {
 <template>
     <section class="lkt-admin-spa lkt-web-item-spa" v-if="lktAdminEnabled">
         <lkt-item-crud
+            v-if="ready"
             v-model="item"
             v-bind="<ItemCrudConfig>{
-                title: settings.labelSingle,
                 readResource: 'r-web-item',
                 readData: {
                     id,
@@ -71,7 +84,9 @@ const redirectOnCreate = (id: string|number) => {
                 },
                 redirectOnCreate,
                 ...settings.single,
+                header,
             }"
         />
+        <lkt-loader v-else/>
     </section>
 </template>
