@@ -20,6 +20,7 @@ if (!lktAdminEnabled.value) window.location.href = '/';
 const route = useRoute(), router = useRouter();
 
 const id = ref(parseInt(route.params.id));
+const editing = ref(false);
 
 watch(route, (to) => {
     id.value = parseInt(route.params.id);
@@ -74,8 +75,13 @@ const form = computed(() => {
     <section class="lkt-admin-spa" v-if="lktAdminEnabled">
         <lkt-item-crud
             v-model="item"
+            v-model:editing="editing"
             v-bind="<ItemCrudConfig>{
-                title: id > 0 ? item.property : 'New translation',
+                header: {
+                    text: id > 0 ? item.property : 'New translation',
+                    icon: 'lkt-icn-lang-picker',
+                    tag: 'h1'
+                },
                 readResource: 'r-i18n',
                 readData: {
                     id,
@@ -83,7 +89,6 @@ const form = computed(() => {
                 mode: id > 0 ? ItemCrudMode.Update : ItemCrudMode.Create,
                 form,
                 buttonNavVisibility: ItemCrudButtonNavVisibility.Always,
-                editing: true,
                 createButton: {
                     resource: 'mk-i18n',
                     icon: 'lkt-icn-save',

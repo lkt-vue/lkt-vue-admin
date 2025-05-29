@@ -1,4 +1,4 @@
-import {App, Plugin} from 'vue';
+import {App, inject, Plugin, Ref} from 'vue';
 import {Router} from 'vue-router';
 
 import "../styles.css";
@@ -19,14 +19,19 @@ const LktVueAdmin: Plugin = {
     }
 };
 
+const navigationGuard = (to, from) => {
+    // const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
+    // if (!lktAdminEnabled.value) return false;
+};
+
 export default LktVueAdmin;
 export const setupLktVueAdminRoutes = (router: Router) => {
-    router.addRoute({path: '/admin/web-pages/:type', name: 'lkt-admin-pages', component: LktAdminPagesSpa});
-    router.addRoute({path: '/admin/web-pages/:type/:id', name: 'lkt-admin-page', component: LktAdminPageSpa});
-    router.addRoute({path: '/admin/web-items/:type', name: 'lkt-web-items', component: LktWebItemsSpa});
-    router.addRoute({path: '/admin/web-items/:type/:id', name: 'lkt-web-item', component: LktWebItemSpa});
-    router.addRoute({path: '/admin/i18n', name: 'lkt-admin-translations', component: LktAdminTranslationsSpa});
-    router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa});
+    router.addRoute({path: '/admin/web-pages/:type', name: 'lkt-admin-pages', component: LktAdminPagesSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/web-pages/:type/:id', name: 'lkt-admin-page', component: LktAdminPageSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/web-items/:type', name: 'lkt-web-items', component: LktWebItemsSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/web-items/:type/:id', name: 'lkt-web-item', component: LktWebItemSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/i18n', name: 'lkt-admin-translations', component: LktAdminTranslationsSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard});
 }
 
 export {setupAdminTranslationsHttp} from "./http/admin-translations-http";

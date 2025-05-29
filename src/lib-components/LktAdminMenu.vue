@@ -5,8 +5,10 @@ import {MenuEntryConfig, MenuEntryType, WebItemsController, WebPageController} f
 const adminMenu = <Ref>inject('adminMenu');
 
 const computedMainMenu = computed(() => {
-    let r = <Array<MenuEntryConfig>>[
-        {
+    let r = <Array<MenuEntryConfig>>[];
+
+    if (WebPageController.hasDefaultPageEnabled()) {
+        r.push({
             key: 'web-pages',
             type: MenuEntryType.Entry,
             icon: 'lkt-icn-webpage',
@@ -19,8 +21,8 @@ const computedMainMenu = computed(() => {
                     }
                 }
             }
-        }
-    ];
+        })
+    }
 
     WebPageController.getPages().forEach(page => {
         r.push({

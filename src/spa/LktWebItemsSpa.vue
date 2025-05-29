@@ -96,13 +96,25 @@ const columns = computed(() => {
 })
 
 const header = computed(() => {
-    let text = settings.value.labelMany ?? '';
-    return <HeaderConfig>{
-        text,
-        icon: settings.value.icon,
-        tag: 'h1',
-    }
-});
+        let text = settings.value.labelMany ?? '';
+        return <HeaderConfig>{
+            text,
+            icon: settings.value.icon,
+            tag: 'h1',
+        }
+    }),
+    createButton = computed(() => {
+        return <HeaderConfig>{
+            icon: 'lkt-icn-more',
+            text: 'Add web item',
+            type: ButtonType.Anchor,
+            anchor: {
+                to: `/admin/web-items/${type.value}/new`,
+            },
+            ...settings.value.many.createButton,
+        }
+    })
+;
 
 onMounted(() => {
     ready.value = true;
@@ -124,14 +136,6 @@ onMounted(() => {
                     resource: 'ls-web-items',
                     resourceData: filters,
                 },
-                createButton: {
-                    icon: 'lkt-icn-more',
-                    text: 'Add web item',
-                    type: ButtonType.Anchor,
-                    anchor: {
-                        to: `/admin/web-item/new`,
-                    }
-                },
                 itemsContainerClass: appSize < AppSize.MD ? 'lkt-grid-1 xs-grid-style' : '',
                 accordion: {
                     contentClass: 'lkt-flex-column',
@@ -141,6 +145,7 @@ onMounted(() => {
                 ...settings.many,
                 columns,
                 header,
+                createButton,
             }"
         />
     </section>

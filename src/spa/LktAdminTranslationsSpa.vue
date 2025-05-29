@@ -99,9 +99,11 @@ const computedTitle = computed(() => {
             v-bind="<TableConfig>{
                 type: appSize < AppSize.MD ? TableType.Accordion : TableType.Table,
                 rowDisplayType: TableRowType.PreferColumns,
-                title: computedTitle,
-                titleTag: 'h1',
-                titleIcon: 'lkt-icn-lang-picker',
+                header: {
+                    text: computedTitle,
+                    icon: 'lkt-icn-lang-picker',
+                    tag: 'h1'
+                },
                 editMode: true,
                 requiredItemsForBottomCreate: 99,
                 columns,
