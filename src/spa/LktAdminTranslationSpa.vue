@@ -21,6 +21,7 @@ const route = useRoute(), router = useRouter();
 
 const id = ref(parseInt(route.params.id));
 const editing = ref(false);
+const perms = ref(['create', 'switch-edit-mode']);
 
 watch(route, (to) => {
     id.value = parseInt(route.params.id);
@@ -76,6 +77,7 @@ const form = computed(() => {
         <lkt-item-crud
             v-model="item"
             v-model:editing="editing"
+            v-model:perms="perms"
             v-bind="<ItemCrudConfig>{
                 header: {
                     text: id > 0 ? item.property : 'New translation',
