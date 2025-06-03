@@ -42,20 +42,22 @@ const computedMainMenu = computed(() => {
     })
 
     WebItemsController.getItems().forEach(webItem => {
-        r.push({
-            key: webItem.code,
-            type: MenuEntryType.Entry,
-            icon: webItem.icon,
-            anchor: {
-                to: `/admin/web-items/${webItem.code}`,
-                text: webItem.labelMany,
-                events: {
-                    click: () => {
-                        adminMenu.value = false;
+        if (webItem.many !== false) {
+            r.push({
+                key: webItem.code,
+                type: MenuEntryType.Entry,
+                icon: webItem.icon,
+                anchor: {
+                    to: `/admin/web-items/${webItem.code}`,
+                    text: webItem.labelMany,
+                    events: {
+                        click: () => {
+                            adminMenu.value = false;
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     })
 
     r.push(

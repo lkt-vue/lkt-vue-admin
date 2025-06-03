@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import {
+    ButtonConfig, ClickEventArgs,
     HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
@@ -26,10 +27,13 @@ const settings = ref(WebItemsController.getWebItemSettings(type.value))
 
 const item = ref(<LktObject>{});
 
+const onCreate = ref(route.params.onCreate);
+
 watch(route, (to) => {
     item.value = {};
     type.value = route.params.type;
     id.value = route.params.id;
+    onCreate.value = route.params.onCreate;
     ready.value = false;
     settings.value = WebItemsController.getWebItemSettings(type.value);
     nextTick(() => ready.value = true);
@@ -44,15 +48,23 @@ const header = computed(() => {
         }
     }),
     createButton = computed(() => {
-        return <HeaderConfig>{
+        if (settings.value?.single?.createButton === false) return false;
+        return <ButtonConfig>{
             resource: 'mk-web-item',
             icon: 'lkt-icn-save',
             text: 'Create',
             ...settings.value.single.createButton,
+            events: {
+                click: (data: ClickEventArgs) => {
+                    if (typeof settings.value.single.createButton === 'function') settings.value.single.createButton(data);
+                    if (typeof onCreate.value === 'function') onCreate.value(data);
+                }
+            }
         }
     }),
     updateButton = computed(() => {
-        return <HeaderConfig>{
+        if (settings.value?.single?.updateButton === false) return false;
+        return <ButtonConfig>{
             resource: 'up-web-item',
             icon: 'lkt-icn-save',
             text: 'Update',
@@ -60,7 +72,8 @@ const header = computed(() => {
         }
     }),
     dropButton = computed(() => {
-        return <HeaderConfig>{
+        if (settings.value?.single?.dropButton === false) return false;
+        return <ButtonConfig>{
             resource: 'rm-web-item',
             resourceData: {id},
             icon: 'lkt-icn-trash',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, inject, nextTick, onMounted, Ref, ref, watch} from "vue";
 import {
-    AppSize,
+    AppSize, ButtonConfig,
     ButtonType,
     ColumnConfig,
     ColumnType,
@@ -104,7 +104,8 @@ const header = computed(() => {
         }
     }),
     createButton = computed(() => {
-        return <HeaderConfig>{
+        if (settings.value?.many?.createButton === false) return false;
+        return <ButtonConfig>{
             icon: 'lkt-icn-more',
             text: 'Add web item',
             type: ButtonType.Anchor,
