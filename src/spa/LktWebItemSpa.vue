@@ -15,26 +15,42 @@ import {useRoute, useRouter} from "vue-router";
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 // if (!lktAdminEnabled.value) window.location.href = '/';
 
+const props = defineProps<{
+    id: string|number
+    type: string
+    onCreateTo: string
+}>();
+
 
 const route = useRoute(), router = useRouter();
 
 const type = ref(route.params.type),
     id = ref(route.params.id),
     ready = ref(false),
-    editing = ref(false);
+    editing = ref(false),
+    perms = ref(['create']);
 
 const settings = ref(WebItemsController.getWebItemSettings(type.value))
 
-const item = ref(<LktObject>{});
+const generateItem = (data: LktObject) => {
+    if (typeof settings.value.itemGenerator == 'function') {
+        return settings.value.itemGenerator(data);
+    }
 
-const onCreate = ref(route.params.onCreate);
+    return {
+        ...data,
+    }
+}
+
+const item = ref(<LktObject>generateItem(route.query));
 
 watch(route, (to) => {
-    item.value = {};
+    item.value = generateItem(route.query);
     type.value = route.params.type;
     id.value = route.params.id;
-    onCreate.value = route.params.onCreate;
     ready.value = false;
+    editing.value = false;
+    perms.value = ['create'];
     settings.value = WebItemsController.getWebItemSettings(type.value);
     nextTick(() => ready.value = true);
 }, {flush: 'pre', immediate: true, deep: true});
@@ -57,7 +73,12 @@ const header = computed(() => {
             events: {
                 click: (data: ClickEventArgs) => {
                     if (typeof settings.value.single.createButton === 'function') settings.value.single.createButton(data);
-                    if (typeof onCreate.value === 'function') onCreate.value(data);
+                    if (props.onCreateTo) {
+                        router.push({
+                            path: props.onCreateTo,
+                            replace: true,
+                        })
+                    }
                 }
             }
         }
@@ -98,6 +119,7 @@ const redirectOnCreate = (id: string | number) => {
             v-if="ready"
             v-model="item"
             v-model:editing="editing"
+            v-model:perms="perms"
             v-bind="<ItemCrudConfig>{
                 readResource: 'r-web-item',
                 readData: {id},

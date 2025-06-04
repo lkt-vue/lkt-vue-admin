@@ -29,7 +29,13 @@ export const setupLktVueAdminRoutes = (router: Router) => {
     router.addRoute({path: '/admin/web-pages/:type', name: 'lkt-admin-pages', component: LktAdminPagesSpa, beforeEnter: navigationGuard});
     router.addRoute({path: '/admin/web-pages/:type/:id', name: 'lkt-admin-page', component: LktAdminPageSpa, beforeEnter: navigationGuard});
     router.addRoute({path: '/admin/web-items/:type', name: 'lkt-web-items', component: LktWebItemsSpa, beforeEnter: navigationGuard});
-    router.addRoute({path: '/admin/web-items/:type/:id', name: 'lkt-web-item', component: LktWebItemSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/web-items/:type/:id', name: 'lkt-web-item', component: LktWebItemSpa, beforeEnter: navigationGuard, props: (route) => {
+            return {
+                id: route.params.id,
+                type: route.params.type,
+                onCreateTo: route.query.onCreateTo ?? '',
+            }
+        }});
     router.addRoute({path: '/admin/i18n', name: 'lkt-admin-translations', component: LktAdminTranslationsSpa, beforeEnter: navigationGuard});
     router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard});
 }
