@@ -104,6 +104,7 @@ const header = computed(() => {
         }
     }),
     createButton = computed(() => {
+        //@ts-ignore
         if (settings.value?.many?.createButton === false) return false;
         return <ButtonConfig>{
             icon: 'lkt-icn-more',
@@ -112,7 +113,8 @@ const header = computed(() => {
             anchor: {
                 to: `/admin/web-items/${type.value}/new`,
             },
-            ...settings.value.many.createButton,
+            //@ts-ignore
+            ...settings.value.many?.createButton,
         }
     })
 ;

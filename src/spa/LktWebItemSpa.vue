@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {
-    ButtonConfig, ClickEventArgs,
+    ButtonConfig, ClickEventArgs, FieldType,
     HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
@@ -11,6 +11,7 @@ import {
 } from "lkt-vue-kernel";
 import {computed, inject, nextTick, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {time} from "lkt-date-tools";
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 // if (!lktAdminEnabled.value) window.location.href = '/';
@@ -72,13 +73,37 @@ const header = computed(() => {
             ...settings.value.single.createButton,
             events: {
                 click: (data: ClickEventArgs) => {
-                    if (typeof settings.value.single.createButton === 'function') settings.value.single.createButton(data);
+                    //@ts-ignore
+                    if (typeof settings.value.single.createButton?.events?.click === 'function') settings.value.single.createButton?.events?.click(data);
                     if (props.onCreateTo) {
                         router.push({
                             path: props.onCreateTo,
                             replace: true,
                         })
                     }
+                }
+            }
+        }
+    }),
+    createAndNewButton = computed(() => {
+        if (settings.value?.single?.createButton === false) return false;
+        return <ButtonConfig>{
+            resource: 'mk-web-item',
+            icon: 'lkt-icn-save',
+            text: 'Create',
+            ...settings.value.single.createAndNewButton,
+            events: {
+                click: (data: ClickEventArgs) => {
+                    //@ts-ignore
+                    if (typeof settings.value.single.createAndNewButton?.events?.click === 'function') settings.value.single.createAndNewButton?.events?.click(data);
+
+                    router.push({
+                        path: `/admin/web-items/${type.value}/new`,
+                        query: {
+                            keepCreating: time()
+                        },
+                        replace: true,
+                    })
                 }
             }
         }
@@ -129,6 +154,7 @@ const redirectOnCreate = (id: string | number) => {
                 ...settings.single,
                 header,
                 createButton,
+                createAndNewButton,
                 updateButton,
                 dropButton,
             }"
