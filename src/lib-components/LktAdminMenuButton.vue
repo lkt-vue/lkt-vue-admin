@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import {ButtonConfig, ButtonType} from "lkt-vue-kernel";
 import {inject, Ref} from "vue";
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import {FileBrowserConfig, ItemCrudButtonNavVisibility, ItemCrudConfig, ItemCrudMode, WebPage} from "lkt-vue-kernel";
 import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";

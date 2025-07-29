@@ -1,5 +1,5 @@
-import { defineComponent as R, inject as T, resolveComponent as B, createBlock as P, createCommentVNode as I, unref as a, openBlock as _, mergeProps as U, isRef as le, computed as f, createElementBlock as E, normalizeClass as oe, createVNode as O, ref as o, watch as N, nextTick as X, onMounted as re } from "vue";
-import { ButtonType as D, WebPageController as Q, MenuEntryType as G, WebItemsController as z, AppSize as x, FieldType as w, ColumnType as C, TableRowType as Y, TableType as S, ItemCrudButtonNavVisibility as Z, ItemCrudMode as F, FormInstance as J, FieldAutoValidationTrigger as K } from "lkt-vue-kernel";
+import { defineComponent as R, inject as T, resolveComponent as B, createBlock as P, createCommentVNode as I, unref as a, openBlock as _, mergeProps as U, isRef as le, computed as f, createElementBlock as E, normalizeClass as oe, createVNode as j, ref as o, watch as N, nextTick as O, onMounted as re } from "vue";
+import { ButtonType as D, WebPageController as X, MenuEntryType as G, WebItemsController as z, AppSize as x, FieldType as w, ColumnType as C, TableRowType as Y, TableType as S, ItemCrudButtonNavVisibility as Z, ItemCrudMode as F, FormInstance as K, FieldAutoValidationTrigger as Q } from "lkt-vue-kernel";
 import { useRoute as L, useRouter as ee } from "vue-router";
 import { time as ae } from "lkt-date-tools";
 import { createHTTPGetResource as te, createHTTPPostResource as ie, createHTTPPutResource as ue, createHTTPDeleteResource as se } from "lkt-http-client";
@@ -25,7 +25,7 @@ const de = /* @__PURE__ */ R({
   setup(u) {
     const t = T("adminMenu"), r = f(() => {
       let n = [];
-      return Q.hasDefaultPageEnabled() && n.push({
+      return X.hasDefaultPageEnabled() && n.push({
         key: "web-pages",
         type: G.Entry,
         icon: "lkt-icn-webpage",
@@ -38,7 +38,7 @@ const de = /* @__PURE__ */ R({
             }
           }
         }
-      }), Q.getPages().forEach((l) => {
+      }), X.getPages().forEach((l) => {
         n.push({
           key: l.code,
           type: G.Entry,
@@ -90,7 +90,7 @@ const de = /* @__PURE__ */ R({
       return _(), E("div", {
         class: oe(["lkt-admin-menu", a(t) ? "is-opened" : ""])
       }, [
-        O(i, {
+        j(i, {
           "model-value": r.value,
           onClickOutside: l[0] || (l[0] = (d) => t.value = !1)
         }, null, 8, ["model-value"])
@@ -135,7 +135,7 @@ const de = /* @__PURE__ */ R({
       }
     ]), p = f(() => {
       let e = "Web Pages";
-      return Q.getPages().forEach((k) => {
+      return X.getPages().forEach((k) => {
         if (k.id == r.value) {
           e = k.label ?? "Web Pages";
           return;
@@ -145,7 +145,7 @@ const de = /* @__PURE__ */ R({
     return (e, k) => {
       const m = B("lkt-table");
       return _(), E("section", pe, [
-        O(m, U({
+        j(m, U({
           ref_key: "spaRef",
           ref: d,
           modelValue: i.value,
@@ -191,7 +191,7 @@ const de = /* @__PURE__ */ R({
     return (s, c) => {
       const p = B("lkt-web-page");
       return _(), E("section", ve, [
-        O(p, {
+        j(p, {
           modelValue: i.value,
           "onUpdate:modelValue": c[0] || (c[0] = (e) => i.value = e),
           "crud-config": {
@@ -323,7 +323,7 @@ const de = /* @__PURE__ */ R({
     return (e, k) => {
       const m = B("lkt-table");
       return a(t) ? (_(), E("section", ye, [
-        O(m, U({
+        j(m, U({
           ref_key: "spaRef",
           ref: d,
           modelValue: i.value,
@@ -381,34 +381,34 @@ const de = /* @__PURE__ */ R({
         type: w.Text,
         value: "",
         valueData: {}
-      }, s.value = ["create", "switch-edit-mode"], X(() => d.value = !0);
+      }, s.value = ["create", "switch-edit-mode"], O(() => d.value = !0);
     }, { flush: "pre", immediate: !0, deep: !0 });
     const p = f(() => ({
       items: [
-        J.mkFieldItemConfig("property", {
+        K.mkFieldItemConfig("property", {
           type: w.Text,
           label: "Property",
           mandatory: !0,
           validation: {
-            trigger: K.Blur
+            trigger: Q.Blur
           }
         }),
-        J.mkFieldItemConfig("type", {
+        K.mkFieldItemConfig("type", {
           type: w.Select,
           mandatory: !0,
           label: "Type",
           options: [w.Text, w.Textarea],
           validation: {
-            trigger: K.Blur
+            trigger: Q.Blur
           }
         }),
-        J.mkFieldItemConfig("valueData", {
+        K.mkFieldItemConfig("valueData", {
           type: c.value.type,
           mandatory: !0,
           canI18n: !0,
           label: "Value",
           validation: {
-            trigger: K.Blur
+            trigger: Q.Blur
           }
         })
       ]
@@ -501,7 +501,7 @@ const de = /* @__PURE__ */ R({
       type: n.value
     }), d = o([]), s = o(null), c = o(!1), p = o(z.getWebItemSettings(n.value));
     N(r, (g) => {
-      n.value = r.params.type, l.value = r.params.id, d.value.splice(0, d.value.length), c.value = !1, i.value.type = n.value, p.value = z.getWebItemSettings(n.value), X(() => c.value = !0);
+      n.value = r.params.type, l.value = r.params.id, d.value.splice(0, d.value.length), c.value = !1, i.value.type = n.value, p.value = z.getWebItemSettings(n.value), O(() => c.value = !0);
     }, { flush: "pre", immediate: !0, deep: !0 });
     let e = T("lktAppSize");
     e || (e = o(x.MD));
@@ -571,7 +571,7 @@ const de = /* @__PURE__ */ R({
           ref_key: "spaRef",
           ref: s,
           modelValue: d.value,
-          "onUpdate:modelValue": b[0] || (b[0] = (j) => d.value = j)
+          "onUpdate:modelValue": b[0] || (b[0] = (J) => d.value = J)
         }, {
           type: a(e) < a(x).MD ? a(S).Accordion : a(S).Table,
           rowDisplayType: a(Y).PreferColumns,
@@ -610,7 +610,9 @@ const de = /* @__PURE__ */ R({
       ...v
     }, m = o(k(n.query));
     N(n, (v) => {
-      m.value = k(n.query), i.value = n.params.type, d.value = n.params.id, s.value = !1, c.value = !1, p.value = ["create"], e.value = z.getWebItemSettings(i.value), X(() => s.value = !0);
+      i.value = n.params.type, d.value = n.params.id, s.value = !1, c.value = !1, p.value = ["create"], e.value = z.getWebItemSettings(i.value), O(() => {
+        m.value = k(n.query), O(() => s.value = !0);
+      });
     }, { flush: "pre", immediate: !0, deep: !0 });
     const A = f(() => ({
       text: e.value.labelSingle ?? "",
@@ -661,7 +663,7 @@ const de = /* @__PURE__ */ R({
         text: "Update",
         ...e.value.single.updateButton
       };
-    }), j = f(() => {
+    }), J = f(() => {
       var v, y;
       return ((y = (v = e.value) == null ? void 0 : v.single) == null ? void 0 : y.dropButton) === !1 ? !1 : {
         resource: "rm-web-item",
@@ -698,7 +700,7 @@ const de = /* @__PURE__ */ R({
           createButton: g.value,
           createAndNewButton: b.value,
           updateButton: M.value,
-          dropButton: j.value
+          dropButton: J.value
         }), null, 16, ["modelValue", "editing", "perms"])) : (_(), P($, { key: 1 }))
       ])) : I("", !0);
     };

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-
 import {
-    ButtonConfig, ClickEventArgs, FieldType,
+    ButtonConfig,
+    ClickEventArgs,
     HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
@@ -46,14 +46,16 @@ const generateItem = (data: LktObject) => {
 const item = ref(<LktObject>generateItem(route.query));
 
 watch(route, (to) => {
-    item.value = generateItem(route.query);
     type.value = route.params.type;
     id.value = route.params.id;
     ready.value = false;
     editing.value = false;
     perms.value = ['create'];
     settings.value = WebItemsController.getWebItemSettings(type.value);
-    nextTick(() => ready.value = true);
+    nextTick(() => {
+        item.value = generateItem(route.query);
+        nextTick(() => ready.value = true);
+    })
 }, {flush: 'pre', immediate: true, deep: true});
 
 const header = computed(() => {
