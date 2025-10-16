@@ -37,7 +37,11 @@ export const setupLktVueAdminRoutes = (router: Router) => {
             }
         }});
     router.addRoute({path: '/admin/i18n', name: 'lkt-admin-translations', component: LktAdminTranslationsSpa, beforeEnter: navigationGuard});
-    router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard});
+    router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard, props: (route) => {
+            return {
+                onCreateTo: route.query.onCreateTo ?? '',
+            }
+        }});
 }
 
 export {setupAdminTranslationsHttp} from "./http/admin-translations-http";

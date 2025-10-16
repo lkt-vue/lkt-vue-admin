@@ -34,6 +34,7 @@ export default {
         'lkt-fields',
         'lkt-button',
         'lkt-loader',
+        'lkt-table',
         'lkt-tabs',
         'lkt-vue-kernel',
       ],

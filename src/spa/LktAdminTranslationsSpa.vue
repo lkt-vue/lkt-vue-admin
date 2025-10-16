@@ -5,7 +5,8 @@ import {
     ButtonType,
     ColumnConfig,
     ColumnType,
-    FieldType,
+    FormConfig,
+    FieldType, FormInstance,
     LktObject,
     TableConfig,
     TableRowType,
@@ -22,7 +23,8 @@ const route = useRoute();
 const id = ref(route.params.id);
 
 const filters = ref({
-        name: '',
+        property: '',
+        value: '',
     }),
     items = ref([]),
     spaRef = ref(null);
@@ -89,6 +91,25 @@ const computedTitle = computed(() => {
     let r = 'Translations';
     return r;
 })
+
+const computedFiltersForm = computed(() => {
+    return <FormConfig>{
+        header: {
+            text: 'Filters',
+            tag: 'h2',
+        },
+        items: [
+            FormInstance.mkFieldItemConfig('property', {
+                type: FieldType.Text,
+                label: 'Property',
+            }),
+            // FormInstance.mkFieldItemConfig('value', {
+            //     type: FieldType.Text,
+            //     label: 'Value',
+            // }),
+        ]
+    }
+})
 </script>
 
 <template>
@@ -124,7 +145,8 @@ const computedTitle = computed(() => {
                     contentClass: 'lkt-flex-column',
                     toggleIconAtEnd: true,
                     iconRotation: '180',
-                }
+                },
+                filtersForm: computedFiltersForm
             }"
         />
     </section>
