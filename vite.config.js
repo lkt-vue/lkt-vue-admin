@@ -37,6 +37,7 @@ export default {
         'lkt-table',
         'lkt-tabs',
         'lkt-vue-kernel',
+        'lkt-vue-app',
       ],
       output: {
         globals: {

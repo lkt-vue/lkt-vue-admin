@@ -9,9 +9,10 @@ import {
     LktObject,
     WebItemsController
 } from "lkt-vue-kernel";
-import {computed, inject, nextTick, Ref, ref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {time} from "lkt-date-tools";
+import {updateMainHeader} from "lkt-vue-app";
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 // if (!lktAdminEnabled.value) window.location.href = '/';
@@ -45,6 +46,14 @@ const generateItem = (data: LktObject) => {
 
 const item = ref(<LktObject>generateItem(route.query));
 
+const updateHeader = () => {
+    if (typeof settings.value.appHeaderSingle === 'function') {
+        updateMainHeader(settings.value.appHeaderSingle({item: item.value}));
+    } else if (typeof settings.value.appHeaderSingle === 'object' && Object.keys(settings.value.appHeaderSingle).length > 0) {
+        updateMainHeader(settings.value.appHeaderSingle);
+    }
+}
+
 watch(route, (to) => {
     type.value = route.params.type;
     id.value = route.params.id;
@@ -54,11 +63,15 @@ watch(route, (to) => {
     settings.value = WebItemsController.getWebItemSettings(type.value);
     nextTick(() => {
         item.value = generateItem(route.query);
-        nextTick(() => ready.value = true);
+        nextTick(() => {
+            updateHeader();
+            nextTick(() => ready.value = true);
+        });
     })
 }, {flush: 'pre', immediate: true, deep: true});
 
 const header = computed(() => {
+        if (typeof settings.value.appHeaderSingle !== 'undefined') return {};
         let text = settings.value.labelSingle ?? '';
         return <HeaderConfig>{
             text,
@@ -138,6 +151,12 @@ const header = computed(() => {
 const redirectOnCreate = (id: string | number) => {
     return `/admin/web-items/${type.value}/${id}`;
 }
+
+onMounted(() => {
+    nextTick(() => {
+        updateHeader();
+    })
+})
 </script>
 
 <template>

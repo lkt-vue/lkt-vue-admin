@@ -12,6 +12,7 @@ import {
     TableType, WebItemsController
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
+import {updateMainHeader} from "lkt-vue-app";
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 if (!lktAdminEnabled.value) window.location.href = '/';
@@ -32,6 +33,14 @@ const filters = ref({
 
 const settings = ref(WebItemsController.getWebItemSettings(type.value))
 
+const updateHeader = () => {
+    if (typeof settings.value.appHeaderMany === 'function') {
+        updateMainHeader(settings.value.appHeaderMany({item: item.value}));
+    } else if (typeof settings.value.appHeaderMany === 'object' && Object.keys(settings.value.appHeaderMany).length > 0) {
+        updateMainHeader(settings.value.appHeaderMany);
+    }
+}
+
 watch(route, (to) => {
     type.value = route.params.type;
     id.value = route.params.id;
@@ -41,7 +50,11 @@ watch(route, (to) => {
     filters.value.type = type.value;
 
     settings.value = WebItemsController.getWebItemSettings(type.value);
-    nextTick(() => ready.value = true);
+
+    nextTick(() => {
+        updateHeader();
+        nextTick(() => ready.value = true);
+    })
 }, {flush: 'pre', immediate: true, deep: true});
 
 
@@ -96,6 +109,7 @@ const columns = computed(() => {
 })
 
 const header = computed(() => {
+        if (typeof settings.value.appHeaderMany !== 'undefined') return {};
         let text = settings.value.labelMany ?? '';
         return <HeaderConfig>{
             text,
