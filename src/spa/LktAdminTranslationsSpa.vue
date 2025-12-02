@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, inject, Ref, ref, watch} from "vue";
+import {computed, inject, nextTick, Ref, ref, watch} from "vue";
 import {
     AppSize,
     ButtonType,
@@ -10,9 +10,10 @@ import {
     LktObject,
     TableConfig,
     TableRowType,
-    TableType
+    TableType, WebItemsController, HeaderConfig
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
+import {updateMainHeader} from "lkt-vue-app";
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 if (!lktAdminEnabled.value) window.location.href = '/';
@@ -29,8 +30,23 @@ const filters = ref({
     items = ref([]),
     spaRef = ref(null);
 
+const settings = ref(WebItemsController.getWebItemSettings('lkt-i18n'));
+
+const updateHeader = () => {
+    if (typeof settings.value?.appHeaderMany === 'function') {
+        updateMainHeader(settings.value.appHeaderMany({item: item.value}));
+    } else if (typeof settings.value?.appHeaderMany === 'object' && Object.keys(settings.value?.appHeaderMany).length > 0) {
+        updateMainHeader(settings.value.appHeaderMany);
+    }
+}
+
 watch(route, (to) => {
     id.value = route.params.id;
+
+    nextTick(() => {
+        updateHeader();
+        // nextTick(() => ready.value = true);
+    });
 }, {flush: 'pre', immediate: true, deep: true});
 
 let appSize = <Ref<AppSize>>inject('lktAppSize');
@@ -87,10 +103,15 @@ const columns = computed(() => {
     ];
 })
 
-const computedTitle = computed(() => {
-    let r = 'Translations';
-    return r;
-})
+const header = computed(() => {
+        if (typeof settings.value.appHeaderMany !== 'undefined') return {};
+        let text = settings.value.labelMany ?? '';
+        return <HeaderConfig>{
+            text,
+            icon: settings.value.icon,
+            tag: 'h1',
+        }
+    });
 
 const computedFiltersForm = computed(() => {
     return <FormConfig>{
@@ -120,11 +141,7 @@ const computedFiltersForm = computed(() => {
             v-bind="<TableConfig>{
                 type: appSize < AppSize.MD ? TableType.Accordion : TableType.Table,
                 rowDisplayType: TableRowType.PreferColumns,
-                header: {
-                    text: computedTitle,
-                    icon: 'lkt-icn-lang-picker',
-                    tag: 'h1'
-                },
+                header,
                 editMode: true,
                 requiredItemsForBottomCreate: 99,
                 columns,

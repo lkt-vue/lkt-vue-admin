@@ -7,18 +7,19 @@ import {
     FieldAutoValidationTrigger,
     FieldType,
     FormConfig,
-    FormInstance,
+    FormInstance, HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
     ItemCrudMode,
     ItemCrudView,
     LktObject,
     MultipleOptionsDisplay,
-    TableType
+    TableType, WebItemsController
 } from "lkt-vue-kernel";
 import {computed, inject, nextTick, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {time} from "lkt-date-tools";
+import {updateMainHeader} from "lkt-vue-app";
 
 const props = defineProps<{
     onCreateTo: string
@@ -37,6 +38,8 @@ const editing = ref(false);
 const ready = ref(false);
 const perms = ref(['create', 'switch-edit-mode']);
 
+const settings = ref(WebItemsController.getWebItemSettings('lkt-i18n'));
+
 const item = ref(<LktObject>{
     property: '',
     type: FieldType.Text,
@@ -45,6 +48,14 @@ const item = ref(<LktObject>{
     children: [],
     ...route.query
 });
+
+const updateHeader = () => {
+    if (typeof settings.value?.appHeaderSingle === 'function') {
+        updateMainHeader(settings.value.appHeaderSingle({item: item.value}));
+    } else if (typeof settings.value?.appHeaderSingle === 'object' && Object.keys(settings.value?.appHeaderSingle).length > 0) {
+        updateMainHeader(settings.value.appHeaderSingle);
+    }
+}
 
 watch(route, (to) => {
     id.value = parseInt(route.params.id);
@@ -59,7 +70,10 @@ watch(route, (to) => {
         ...route.query
     };
     perms.value = ['create', 'switch-edit-mode'];
-    nextTick(() => ready.value = true);
+    nextTick(() => {
+        updateHeader();
+        nextTick(() => ready.value = true);
+    });
 }, {flush: 'pre', immediate: true, deep: true});
 
 const redirectOnCreate = (id: string | number) => {
@@ -170,13 +184,24 @@ const form = computed(() => {
             }
         }
     }),
+    header = computed(() => {
+        if (typeof settings.value.appHeaderSingle !== 'undefined') return {};
+        let text = settings.value.labelSingle ?? '';
+        return <HeaderConfig>{
+            text,
+            icon: settings.value.icon ?? 'lkt-icn-lang-picker',
+            tag: 'h1',
+        }
+    }),
     computedItemCrudConfig = computed(() => {
+
         return <ItemCrudConfig>{
-            header: {
-                text: id.value > 0 ? item.value.property : 'New translation',
-                icon: 'lkt-icn-lang-picker',
-                tag: 'h1'
-            },
+            // header: {
+            //     text: id.value > 0 ? item.value.property : 'New translation',
+            //     icon: 'lkt-icn-lang-picker',
+            //     tag: 'h1'
+            // },
+            header: header.value,
             readResource: 'r-i18n',
             readData: {
                 id: id.value,

@@ -1,6 +1,6 @@
-declare namespace Pe {
-    function install(s: any): void;
+declare namespace $e {
+    function install(p: any): void;
 }
-declare function Ie(): void;
-declare function Se(s: any): void;
-export { Pe as default, Ie as setupAdminTranslationsHttp, Se as setupLktVueAdminRoutes };
+declare function Ve(): void;
+declare function Ie(p: any): void;
+export { $e as default, Ve as setupAdminTranslationsHttp, Ie as setupLktVueAdminRoutes };
