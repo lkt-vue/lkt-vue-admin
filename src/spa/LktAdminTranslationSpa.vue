@@ -21,11 +21,12 @@ import {useRoute, useRouter} from "vue-router";
 import {time} from "lkt-date-tools";
 import {updateMainHeader} from "lkt-vue-app";
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     onCreateTo: string
-}>();
-
-console.log('i18n props: ', props)
+    many: boolean
+}>(), {
+    many: false
+});
 
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 if (!lktAdminEnabled.value) window.location.href = '/';
@@ -38,7 +39,7 @@ const editing = ref(false);
 const ready = ref(false);
 const perms = ref(['create', 'switch-edit-mode']);
 
-const settings = ref(WebItemsController.getWebItemSettings('lkt-i18n'));
+const settings = ref(WebItemsController.getWebItemSettings(props.many ? 'lkt-many-i18n' : 'lkt-i18n'));
 
 const item = ref(<LktObject>{
     property: '',
@@ -49,7 +50,12 @@ const item = ref(<LktObject>{
     ...route.query
 });
 
+const computedRoutePath = computed(() => {
+    return props.many ? 'many-i18n' : 'i18n'
+})
+
 const updateHeader = () => {
+    if (typeof settings.value === 'undefined') return;
     if (typeof settings.value?.appHeaderSingle === 'function') {
         updateMainHeader(settings.value.appHeaderSingle({item: item.value}));
     } else if (typeof settings.value?.appHeaderSingle === 'object' && Object.keys(settings.value?.appHeaderSingle).length > 0) {
@@ -126,7 +132,7 @@ const form = computed(() => {
                         optionsConfig: {
                             icon: 'lkt-icn-edit',
                             anchor: {
-                                to: '/admin/i18n/feed{value}'
+                                to: `/admin/${computedRoutePath.value}/feed{value}`
                             },
                             zeroMeansEmpty: true,
                             table: {
@@ -159,7 +165,7 @@ const form = computed(() => {
                                             class: 'lkt-button--info',
                                             icon: 'lkt-icn-expand',
                                             anchor: {
-                                                to: '/admin/i18n/feed{value}'
+                                                to: `/admin/${computedRoutePath.value}/feed{value}`
                                             }
                                         }
                                     }
@@ -171,10 +177,10 @@ const form = computed(() => {
                             anchor: {
                                 type: AnchorType.RouterLink,
                                 to: {
-                                    path: '/admin/i18n/new',
+                                    path: `/admin/${computedRoutePath.value}/new`,
                                     query: {
                                         parentId: data.item.id,
-                                        onCreateTo: `/admin/i18n/${data.item.id}`
+                                        onCreateTo: `/admin/${computedRoutePath.value}/${data.item.id}`
                                     }
                                 }
                             },
@@ -185,16 +191,15 @@ const form = computed(() => {
         }
     }),
     header = computed(() => {
-        if (typeof settings.value.appHeaderSingle !== 'undefined') return {};
-        let text = settings.value.labelSingle ?? '';
+        if (typeof settings.value?.appHeaderSingle !== 'undefined') return {};
+        let text = settings.value?.labelSingle ?? '';
         return <HeaderConfig>{
             text,
-            icon: settings.value.icon ?? 'lkt-icn-lang-picker',
+            icon: settings.value?.icon ?? 'lkt-icn-lang-picker',
             tag: 'h1',
         }
     }),
     computedItemCrudConfig = computed(() => {
-
         return <ItemCrudConfig>{
             // header: {
             //     text: id.value > 0 ? item.value.property : 'New translation',
@@ -205,6 +210,7 @@ const form = computed(() => {
             readResource: 'r-i18n',
             readData: {
                 id: id.value,
+                type: props.many ? 'many' : undefined,
             },
             mode: id.value > 0 ? ItemCrudMode.Update : ItemCrudMode.Create,
             form: form.value,
@@ -222,7 +228,7 @@ const form = computed(() => {
                             })
                         } else {
                             router.push({
-                                path: `/admin/i18n/${data.httpResponse?.autoReloadId}`,
+                                path: `/admin/${computedRoutePath.value}/${data.httpResponse?.autoReloadId}`,
                                 replace: true,
                             })
                         }
@@ -236,7 +242,7 @@ const form = computed(() => {
                 events: {
                     click: (data: ClickEventArgs) => {
                         router.push({
-                            path: `/admin/i18n/new`,
+                            path: `/admin/${computedRoutePath.value}/new`,
                             query: {
                                 keepCreating: time()
                             },

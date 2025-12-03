@@ -18,6 +18,11 @@ import {updateMainHeader} from "lkt-vue-app";
 const lktAdminEnabled = <Ref<boolean>>inject('lktAdminEnabled');
 if (!lktAdminEnabled.value) window.location.href = '/';
 
+const props = withDefaults(defineProps<{
+    many: boolean
+}>(), {
+    many: false
+});
 
 const route = useRoute();
 
@@ -26,13 +31,19 @@ const id = ref(route.params.id);
 const filters = ref({
         property: '',
         value: '',
+        type: props.many ? 'many' : ''
     }),
     items = ref([]),
     spaRef = ref(null);
 
-const settings = ref(WebItemsController.getWebItemSettings('lkt-i18n'));
+const settings = ref(WebItemsController.getWebItemSettings(props.many ? 'lkt-many-i18n' : 'lkt-i18n'));
+
+const computedRoutePath = computed(() => {
+    return props.many ? 'many-i18n' : 'i18n'
+})
 
 const updateHeader = () => {
+    if (typeof settings.value === 'undefined') return;
     if (typeof settings.value?.appHeaderMany === 'function') {
         updateMainHeader(settings.value.appHeaderMany({item: item.value}));
     } else if (typeof settings.value?.appHeaderMany === 'object' && Object.keys(settings.value?.appHeaderMany).length > 0) {
@@ -67,16 +78,6 @@ const columns = computed(() => {
         },
         {
             type: ColumnType.Field,
-            key: 'type',
-            label: 'Type',
-            ensureFieldLabel: appSize.value < AppSize.MD,
-            field: {
-                type: FieldType.Select,
-                options: [FieldType.Text, FieldType.Textarea],
-            }
-        },
-        {
-            type: ColumnType.Field,
             key: 'value',
             label: 'Value',
             ensureFieldLabel: appSize.value < AppSize.MD,
@@ -96,7 +97,7 @@ const columns = computed(() => {
                 text: 'Details',
                 icon: 'lkt-icn-expand',
                 anchor: {
-                    to: (data: LktObject) => `/admin/i18n/${data.id}`,
+                    to: (data: LktObject) => `/admin/${computedRoutePath.value}/${data.id}`,
                 }
             }
         },
@@ -104,11 +105,11 @@ const columns = computed(() => {
 })
 
 const header = computed(() => {
-        if (typeof settings.value.appHeaderMany !== 'undefined') return {};
-        let text = settings.value.labelMany ?? '';
+        if (typeof settings.value?.appHeaderMany !== 'undefined') return {};
+        let text = settings.value?.labelMany ?? '';
         return <HeaderConfig>{
             text,
-            icon: settings.value.icon,
+            icon: settings.value?.icon,
             tag: 'h1',
         }
     });
@@ -154,7 +155,7 @@ const computedFiltersForm = computed(() => {
                     text: 'Add translation',
                     type: ButtonType.Anchor,
                     anchor: {
-                        to: `/admin/i18n/new`,
+                        to: `/admin/${computedRoutePath}/new`,
                     }
                 },
                 itemsContainerClass: appSize < AppSize.MD ? 'lkt-grid-1 xs-grid-style' : '',
