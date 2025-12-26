@@ -5,12 +5,16 @@ import {
     ButtonType,
     ColumnConfig,
     ColumnType,
+    FieldType,
     FormConfig,
-    FieldType, FormInstance,
+    FormInstance,
+    HeaderConfig,
     LktObject,
+    MultipleOptionsDisplay,
     TableConfig,
     TableRowType,
-    TableType, WebItemsController, HeaderConfig
+    TableType,
+    WebItemsController
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
 import {updateMainHeader} from "lkt-vue-app";
@@ -65,7 +69,7 @@ let appSize = <Ref<AppSize>>inject('lktAppSize');
 if (!appSize) appSize = ref(AppSize.MD);
 
 const columns = computed(() => {
-    return <Array<ColumnConfig>>[
+    let r = <Array<ColumnConfig>>[
         {
             type: ColumnType.Field,
             key: 'property',
@@ -76,7 +80,23 @@ const columns = computed(() => {
                 icon: 'lkt-icn-lang-picker',
             }
         },
-        {
+    ];
+
+    if (props.many) {
+        // r.push({
+        //     type: ColumnType.Field,
+        //     key: 'children',
+        //     label: 'Items',
+        //     ensureFieldLabel: appSize.value < AppSize.MD,
+        //     field: {
+        //         type: FieldType.Select,
+        //         multipleDisplay: MultipleOptionsDisplay.Count,
+        //         options: 'prop:children',
+        //         optionValueType: 'option'
+        //     }
+        // });
+    } else {
+        r.push({
             type: ColumnType.Field,
             key: 'value',
             label: 'Value',
@@ -87,21 +107,24 @@ const columns = computed(() => {
                     textMaxLength: 10,
                 }
             }
-        },
-        {
-            type: ColumnType.Button,
-            key: 'details',
-            label: 'Details',
-            button: {
-                type: ButtonType.Anchor,
-                text: 'Details',
-                icon: 'lkt-icn-expand',
-                anchor: {
-                    to: (data: LktObject) => `/admin/${computedRoutePath.value}/${data.id}`,
-                }
+        });
+    }
+
+    r.push({
+        type: ColumnType.Button,
+        key: 'details',
+        label: 'Details',
+        button: {
+            type: ButtonType.Anchor,
+            text: 'Details',
+            icon: 'lkt-icn-expand',
+            anchor: {
+                to: (data: LktObject) => `/admin/${computedRoutePath.value}/${data.id}`,
             }
-        },
-    ];
+        }
+    })
+
+    return r;
 })
 
 const header = computed(() => {

@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import {
     AnchorType,
+    AppSize,
     ButtonType,
     ClickEventArgs,
     ColumnType,
     FieldAutoValidationTrigger,
     FieldType,
     FormConfig,
-    FormInstance, HeaderConfig,
+    FormInstance,
+    HeaderConfig,
     ItemCrudButtonNavVisibility,
     ItemCrudConfig,
     ItemCrudMode,
     ItemCrudView,
     LktObject,
     MultipleOptionsDisplay,
-    TableType, WebItemsController
+    TablePermission,
+    TableType,
+    WebItemsController
 } from "lkt-vue-kernel";
 import {computed, inject, nextTick, Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
@@ -39,16 +43,28 @@ const editing = ref(false);
 const ready = ref(false);
 const perms = ref(['create', 'switch-edit-mode']);
 
+let appSize = <Ref<AppSize>>inject('lktAppSize');
+
+if (!appSize) appSize = ref(AppSize.MD);
+
 const settings = ref(WebItemsController.getWebItemSettings(props.many ? 'lkt-many-i18n' : 'lkt-i18n'));
+
+const computedIsDictionaryParent = computed(() => {
+    return props.many && !route.query.parentId;
+})
 
 const item = ref(<LktObject>{
     property: '',
-    type: FieldType.Text,
+    type: computedIsDictionaryParent.value ? 'many' : FieldType.Text,
     value: '',
+    parentId: 0,
     valueData: {},
     children: [],
+
     ...route.query
 });
+
+console.log('check: ', props.many, parseInt(route.query.parentId))
 
 const computedRoutePath = computed(() => {
     return props.many ? 'many-i18n' : 'i18n'
@@ -69,8 +85,9 @@ watch(route, (to) => {
     editing.value = false;
     item.value = <LktObject>{
         property: '',
-        type: FieldType.Text,
+        type: computedIsDictionaryParent.value ? 'many' : FieldType.Text,
         value: '',
+        parentId: 0,
         valueData: {},
         children: [],
         ...route.query
@@ -85,6 +102,11 @@ watch(route, (to) => {
 const redirectOnCreate = (id: string | number) => {
     return `/admin/i18n/${id}`;
 }
+
+const computedDisabledType = computed(() => {
+    //@todo
+    return false;
+})
 
 const form = computed(() => {
         return (data: {item: LktObject, mode: ItemCrudMode, view: ItemCrudView}): FormConfig => {
@@ -103,11 +125,17 @@ const form = computed(() => {
                         mandatory: true,
                         label: 'Type',
                         options: [FieldType.Text, FieldType.Textarea, 'many'],
-                        readMode: item.value.type === 'many' && item.value.id > 0,
+                        optionsConfig: {
+                            filter: (opt) => {
+                                if (opt.value === 'many') return computedIsDictionaryParent.value && !item.value.parentId;
+                                return true;
+                            }
+                        },
+                        readMode: computedIsDictionaryParent.value && !item.value.parentId,
                         validation: {
                             trigger: FieldAutoValidationTrigger.Blur
                         }
-                    }),
+                    }, {}, {canRender: true}),
                     FormInstance.mkFieldItemConfig('valueData', {
                         type: item.value.type,
                         mandatory: true,
@@ -138,13 +166,15 @@ const form = computed(() => {
                             table: {
                                 type: TableType.Table,
                                 drag: {
-                                    enabled: true,
-                                    isDraggable: true,
+                                    enabled: false,
+                                    isDraggable: false,
                                     isValid: true,
-                                    isDisabled: false,
+                                    isDisabled: true,
                                     canRender: true,
                                     dragKey: 'drag-indicator'
                                 },
+                                perms: [TablePermission.Create],
+                                requiredItemsForTopCreate: 999,
                                 columns: [
                                     {
                                         key: 'property',
@@ -153,6 +183,19 @@ const form = computed(() => {
                                         field: {
                                             type: FieldType.Text,
                                             icon: 'lkt-icn-lang-picker',
+                                        }
+                                    },
+                                    {
+                                        key: 'valueData',
+                                        label: 'Value',
+                                        type: ColumnType.Field,
+                                        ensureFieldLabel: appSize.value < AppSize.MD,
+                                        field: {
+                                            type: 'prop:type',
+                                            canI18n: true,
+                                            readModeConfig: {
+                                                textMaxLength: 10,
+                                            }
                                         }
                                     },
                                     {
@@ -165,26 +208,26 @@ const form = computed(() => {
                                             class: 'lkt-button--info',
                                             icon: 'lkt-icn-expand',
                                             anchor: {
-                                                to: `/admin/${computedRoutePath.value}/feed{value}`
+                                                to: `/admin/${computedRoutePath.value}/feed{id}`
                                             }
                                         }
                                     }
-                                ]
+                                ],
+                                createButton: {
+                                    type: ButtonType.Anchor,
+                                    anchor: {
+                                        type: AnchorType.RouterLink,
+                                        to: {
+                                            path: `/admin/${computedRoutePath.value}/new`,
+                                            query: {
+                                                parentId: data.item.id,
+                                                onCreateTo: `/admin/${computedRoutePath.value}/${data.item.id}`
+                                            }
+                                        }
+                                    },
+                                }
                             }
                         },
-                        createButton: {
-                            type: ButtonType.Anchor,
-                            anchor: {
-                                type: AnchorType.RouterLink,
-                                to: {
-                                    path: `/admin/${computedRoutePath.value}/new`,
-                                    query: {
-                                        parentId: data.item.id,
-                                        onCreateTo: `/admin/${computedRoutePath.value}/${data.item.id}`
-                                    }
-                                }
-                            },
-                        }
                     }, {}, {canRender: item.value.id > 0 && item.value.type === 'many'}),
                 ]
             }
