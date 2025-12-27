@@ -14,7 +14,8 @@ import {
     ItemCrudConfig,
     ItemCrudMode,
     ItemCrudView,
-    LktObject,
+    LktObject, LktTranslationConfig,
+    LktTranslationType,
     MultipleOptionsDisplay,
     TablePermission,
     TableType,
@@ -53,9 +54,9 @@ const computedIsDictionaryParent = computed(() => {
     return props.many && !route.query.parentId;
 })
 
-const item = ref(<LktObject>{
+const item = ref(<LktTranslationConfig>{
     property: '',
-    type: computedIsDictionaryParent.value ? 'many' : FieldType.Text,
+    type: computedIsDictionaryParent.value ? LktTranslationType.Many : LktTranslationType.Text,
     value: '',
     parentId: 0,
     valueData: {},
@@ -63,8 +64,6 @@ const item = ref(<LktObject>{
 
     ...route.query
 });
-
-console.log('check: ', props.many, parseInt(route.query.parentId))
 
 const computedRoutePath = computed(() => {
     return props.many ? 'many-i18n' : 'i18n'
@@ -83,7 +82,7 @@ watch(route, (to) => {
     id.value = parseInt(route.params.id);
     ready.value = false;
     editing.value = false;
-    item.value = <LktObject>{
+    item.value = <LktTranslationConfig>{
         property: '',
         type: computedIsDictionaryParent.value ? 'many' : FieldType.Text,
         value: '',
@@ -109,7 +108,7 @@ const computedDisabledType = computed(() => {
 })
 
 const form = computed(() => {
-        return (data: {item: LktObject, mode: ItemCrudMode, view: ItemCrudView}): FormConfig => {
+        return (data: {item: LktTranslationConfig, mode: ItemCrudMode, view: ItemCrudView}): FormConfig => {
             return {
                 items: [
                     FormInstance.mkFieldItemConfig('property', {
@@ -124,7 +123,7 @@ const form = computed(() => {
                         type: FieldType.Select,
                         mandatory: true,
                         label: 'Type',
-                        options: [FieldType.Text, FieldType.Textarea, 'many'],
+                        options: [LktTranslationType.Text, LktTranslationType.Textarea, LktTranslationType.Many],
                         optionsConfig: {
                             filter: (opt) => {
                                 if (opt.value === 'many') return computedIsDictionaryParent.value && !item.value.parentId;

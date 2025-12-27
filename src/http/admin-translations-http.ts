@@ -12,7 +12,7 @@ export const setupAdminTranslationsHttp = () => {
     createHTTPGetResource({
         url: '/translations',
         name: 'ls-lkt-i18n',
-        params: {property: {default: undefined}, value: {default: undefined}, type: {default: undefined}},
+        params: {property: {default: undefined}, value: {default: undefined}, type: {default: undefined}, page: {default: undefined}},
         digToPerms: 'perms',
         digToData: 'results',
         mapData: (data: LktObject[]) => {
