@@ -5,3 +5,4 @@ declare const LktVueAdmin: Plugin;
 export default LktVueAdmin;
 export declare const setupLktVueAdminRoutes: (router: Router) => void;
 export { setupAdminTranslationsHttp } from "./http/admin-translations-http";
+export { setupAdminUserRoleHttp } from "./http/admin-user-roles-http";

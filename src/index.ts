@@ -56,3 +56,4 @@ export const setupLktVueAdminRoutes = (router: Router) => {
 }
 
 export {setupAdminTranslationsHttp} from "./http/admin-translations-http";
+export {setupAdminUserRoleHttp} from "./http/admin-user-roles-http";
