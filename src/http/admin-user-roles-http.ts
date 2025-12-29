@@ -20,6 +20,16 @@ export const setupAdminUserRoleHttp = () => {
         }
     });
 
+    createHTTPGetResource({
+        url: '/user/roles',
+        name: 'all-user-role',
+        digToPerms: 'perms',
+        digToData: 'results',
+        mapData: (data: LktObject[]) => {
+            return data;
+        }
+    });
+
 
     createHTTPGetResource({
         url: '/user/role/{id}',
