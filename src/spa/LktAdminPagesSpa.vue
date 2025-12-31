@@ -6,7 +6,7 @@ import {
     ColumnConfig,
     ColumnType,
     FieldType,
-    LktObject,
+    LktObject, LktSettings,
     TableConfig,
     TableRowType,
     TableType,
@@ -54,9 +54,8 @@ const columns = computed(() => {
             key: 'details',
             label: 'Details',
             button: {
+                ...LktSettings.defaultDetailsButton,
                 type: ButtonType.Anchor,
-                text: 'Details',
-                icon: 'lkt-icn-expand',
                 anchor: {
                     to: (data: LktObject) => `/admin/web-pages/${type.value}/${data.id}`,
                 }

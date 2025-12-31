@@ -9,7 +9,7 @@ import {
     FormConfig,
     FormInstance,
     HeaderConfig,
-    LktObject,
+    LktObject, LktSettings,
     MultipleOptionsDisplay,
     TableConfig,
     TableRowType,
@@ -115,9 +115,8 @@ const columns = computed(() => {
         key: 'details',
         label: 'Details',
         button: {
+            ...LktSettings.defaultDetailsButton,
             type: ButtonType.Anchor,
-            text: 'Details',
-            icon: 'lkt-icn-expand',
             anchor: {
                 to: (data: LktObject) => `/admin/${computedRoutePath.value}/${data.id}`,
             }

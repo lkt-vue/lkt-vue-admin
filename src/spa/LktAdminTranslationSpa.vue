@@ -14,7 +14,7 @@ import {
     ItemCrudConfig,
     ItemCrudMode,
     ItemCrudView,
-    LktObject, LktTranslationConfig,
+    LktObject, LktSettings, LktTranslationConfig,
     LktTranslationType,
     MultipleOptionsDisplay,
     TablePermission,
@@ -202,9 +202,8 @@ const form = computed(() => {
                                         label: 'Details',
                                         type: ColumnType.Button,
                                         button: {
+                                            ...LktSettings.defaultDetailsButton,
                                             type: ButtonType.Anchor,
-                                            text: '__:common.button.details',
-                                            class: 'lkt-button--info',
                                             icon: 'lkt-icn-expand',
                                             anchor: {
                                                 to: `/admin/${computedRoutePath.value}/feed{id}`

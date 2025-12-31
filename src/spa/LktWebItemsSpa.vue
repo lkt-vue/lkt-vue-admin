@@ -6,7 +6,7 @@ import {
     ColumnConfig,
     ColumnType,
     FieldType, HeaderConfig,
-    LktObject,
+    LktObject, LktSettings,
     TableConfig,
     TableRowType,
     TableType, WebItemsController
@@ -71,9 +71,8 @@ const columns = computed(() => {
                 key: 'details',
                 label: 'Details',
                 button: {
+                    ...LktSettings.defaultDetailsButton,
                     type: ButtonType.Anchor,
-                    text: 'Details',
-                    icon: 'lkt-icn-expand',
                     anchor: {
                         to: (data: LktObject) => `/admin/web-items/${type.value}/${data.id}`,
                     }
@@ -97,9 +96,8 @@ const columns = computed(() => {
             key: 'details',
             label: 'Details',
             button: {
+                ...LktSettings.defaultDetailsButton,
                 type: ButtonType.Anchor,
-                text: 'Details',
-                icon: 'lkt-icn-expand',
                 anchor: {
                     to: (data: LktObject) => `/admin/web-items/${type.value}/${data.id}`,
                 }
