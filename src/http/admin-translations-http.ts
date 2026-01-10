@@ -4,7 +4,7 @@ import {
     createHTTPPostResource,
     createHTTPPutResource
 } from "lkt-http-client";
-import {LktObject} from "lkt-vue-kernel";
+import {LktObject, LktTranslation} from "lkt-vue-kernel";
 
 
 export const setupAdminTranslationsHttp = () => {
@@ -15,8 +15,9 @@ export const setupAdminTranslationsHttp = () => {
         params: {property: {default: undefined}, value: {default: undefined}, type: {default: undefined}, page: {default: undefined}},
         digToPerms: 'perms',
         digToData: 'results',
+        digToMaxPage: 'maxPage',
         mapData: (data: LktObject[]) => {
-            return data;
+            return data.map(d => new LktTranslation(d));
         }
     });
 
@@ -28,7 +29,7 @@ export const setupAdminTranslationsHttp = () => {
         digToPerms: 'perms',
         digToData: 'item',
         mapData: (data: LktObject) => {
-            return data;
+            return new LktTranslation(data);
         }
     });
 

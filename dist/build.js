@@ -1,19 +1,19 @@
-import { defineComponent as E, inject as M, resolveComponent as H, createBlock as N, createCommentVNode as W, unref as n, openBlock as C, mergeProps as j, isRef as ye, computed as k, createElementBlock as q, normalizeClass as fe, createVNode as te, ref as l, watch as O, nextTick as $, onMounted as de } from "vue";
-import { ButtonType as R, WebPageController as ne, MenuEntryType as ee, WebItemsController as U, AppSize as B, FieldType as I, ColumnType as A, LktSettings as Z, TableRowType as le, TableType as L, ItemCrudButtonNavVisibility as re, ItemCrudMode as z, FormInstance as X, LktTranslationType as Q, FieldAutoValidationTrigger as ae, AnchorType as ke, TablePermission as ge, MultipleOptionsDisplay as ie } from "lkt-vue-kernel";
+import { defineComponent as E, inject as M, resolveComponent as I, createBlock as N, createCommentVNode as W, unref as n, openBlock as B, mergeProps as j, isRef as fe, computed as k, createElementBlock as q, normalizeClass as ke, createVNode as te, ref as l, watch as O, nextTick as P, onMounted as pe } from "vue";
+import { ButtonType as R, WebPageController as ne, MenuEntryType as ee, WebItemsController as U, AppSize as D, FieldType as $, ColumnType as A, LktSettings as Z, TableRowType as le, TableType as L, ItemCrudButtonNavVisibility as re, ItemCrudMode as z, FormInstance as X, LktTranslationType as Q, FieldAutoValidationTrigger as ae, AnchorType as ge, TablePermission as be, MultipleOptionsDisplay as ie, LktTranslation as ue } from "lkt-vue-kernel";
 import { useRoute as G, useRouter as oe } from "vue-router";
 import { updateMainHeader as S } from "lkt-vue-app";
-import { time as pe } from "lkt-date-tools";
-import { createHTTPGetResource as Y, createHTTPPostResource as me, createHTTPPutResource as ce, createHTTPDeleteResource as ve } from "lkt-http-client";
-const be = /* @__PURE__ */ E({
+import { time as me } from "lkt-date-tools";
+import { createHTTPGetResource as Y, createHTTPPostResource as ce, createHTTPPutResource as ve, createHTTPDeleteResource as ye } from "lkt-http-client";
+const he = /* @__PURE__ */ E({
   __name: "LktAdminMenuButton",
   setup(r) {
     const e = M("adminMenu"), u = M("lktAdminEnabled");
     return (a, o) => {
-      const s = H("lkt-button");
-      return n(u) ? (C(), N(s, j({
+      const s = I("lkt-button");
+      return n(u) ? (B(), N(s, j({
         key: 0,
         checked: n(e),
-        "onUpdate:checked": o[0] || (o[0] = (c) => ye(e) ? e.value = c : null)
+        "onUpdate:checked": o[0] || (o[0] = (c) => fe(e) ? e.value = c : null)
       }, {
         type: n(R).HiddenSwitch,
         icon: "lkt-icn-lkt",
@@ -21,7 +21,7 @@ const be = /* @__PURE__ */ E({
       }), null, 16, ["checked"])) : W("", !0);
     };
   }
-}), he = /* @__PURE__ */ E({
+}), Te = /* @__PURE__ */ E({
   __name: "LktAdminMenu",
   setup(r) {
     const e = M("adminMenu"), u = k(() => {
@@ -87,9 +87,9 @@ const be = /* @__PURE__ */ E({
       ), a;
     });
     return (a, o) => {
-      const s = H("lkt-menu");
-      return C(), q("div", {
-        class: fe(["lkt-admin-menu", n(e) ? "is-opened" : ""])
+      const s = I("lkt-menu");
+      return B(), q("div", {
+        class: ke(["lkt-admin-menu", n(e) ? "is-opened" : ""])
       }, [
         te(s, {
           "model-value": u.value,
@@ -98,7 +98,7 @@ const be = /* @__PURE__ */ E({
       ], 2);
     };
   }
-}), Te = { class: "lkt-admin-spa lkt-admin-pages" }, _e = /* @__PURE__ */ E({
+}), _e = { class: "lkt-admin-spa lkt-admin-pages" }, we = /* @__PURE__ */ E({
   __name: "LktAdminPagesSpa",
   setup(r) {
     const e = G(), u = l(e.params.type), a = l(e.params.id), o = l({
@@ -109,7 +109,7 @@ const be = /* @__PURE__ */ E({
       u.value = e.params.type, a.value = e.params.id, o.value.type = u.value;
     }, { flush: "pre", immediate: !0, deep: !0 });
     let g = M("lktAppSize");
-    g || (g = l(B.MD));
+    g || (g = l(D.MD));
     const d = k(() => [
       {
         type: A.Field,
@@ -117,7 +117,7 @@ const be = /* @__PURE__ */ E({
         label: "__:common.column.name",
         isForAccordionHeader: !0,
         field: {
-          type: I.Text,
+          type: $.Text,
           icon: "lkt-icn-webpage"
         }
       },
@@ -143,15 +143,15 @@ const be = /* @__PURE__ */ E({
       }), t;
     });
     return (t, m) => {
-      const f = H("lkt-table");
-      return C(), q("section", Te, [
+      const f = I("lkt-table");
+      return B(), q("section", _e, [
         te(f, j({
           ref_key: "spaRef",
           ref: c,
           modelValue: s.value,
           "onUpdate:modelValue": m[0] || (m[0] = (w) => s.value = w)
         }, {
-          type: n(g) < n(B).MD ? n(L).Accordion : n(L).Table,
+          type: n(g) < n(D).MD ? n(L).Accordion : n(L).Table,
           rowDisplayType: n(le).PreferColumns,
           title: i.value,
           titleTag: "h1",
@@ -170,7 +170,7 @@ const be = /* @__PURE__ */ E({
               to: `/admin/web-pages/${u.value}/0`
             }
           },
-          itemsContainerClass: n(g) < n(B).MD ? "lkt-grid-1 xs-grid-style" : "",
+          itemsContainerClass: n(g) < n(D).MD ? "lkt-grid-1 xs-grid-style" : "",
           accordion: {
             contentClass: "lkt-flex-column",
             toggleIconAtEnd: !0,
@@ -180,7 +180,7 @@ const be = /* @__PURE__ */ E({
       ]);
     };
   }
-}), we = { class: "lkt-admin-spa" }, Ce = /* @__PURE__ */ E({
+}), Ce = { class: "lkt-admin-spa" }, Be = /* @__PURE__ */ E({
   __name: "LktAdminPageSpa",
   setup(r) {
     const e = G(), u = oe(), a = l(e.params.type), o = l(e.params.id);
@@ -189,8 +189,8 @@ const be = /* @__PURE__ */ E({
     }, { flush: "pre", immediate: !0, deep: !0 });
     const s = l({}), c = (g) => `/admin/web-pages/${a.value}/${g}`;
     return (g, d) => {
-      const i = H("lkt-web-page");
-      return C(), q("section", we, [
+      const i = I("lkt-web-page");
+      return B(), q("section", Ce, [
         te(i, {
           modelValue: s.value,
           "onUpdate:modelValue": d[0] || (d[0] = (t) => s.value = t),
@@ -257,10 +257,10 @@ const be = /* @__PURE__ */ E({
       ]);
     };
   }
-}), Be = {
+}), De = {
   key: 0,
   class: "lkt-admin-spa lkt-admin-translations"
-}, ue = /* @__PURE__ */ E({
+}, se = /* @__PURE__ */ E({
   __name: "LktAdminTranslationsSpa",
   props: {
     many: { type: Boolean, default: !1 }
@@ -277,12 +277,12 @@ const be = /* @__PURE__ */ E({
       typeof d.value > "u" || (typeof ((v = d.value) == null ? void 0 : v.appHeaderMany) == "function" ? S(d.value.appHeaderMany({ item: item.value })) : typeof ((b = d.value) == null ? void 0 : b.appHeaderMany) == "object" && Object.keys((_ = d.value) == null ? void 0 : _.appHeaderMany).length > 0 && S(d.value.appHeaderMany));
     };
     O(a, (v) => {
-      o.value = a.params.id, $(() => {
+      o.value = a.params.id, P(() => {
         t();
       });
     }, { flush: "pre", immediate: !0, deep: !0 });
     let m = M("lktAppSize");
-    m || (m = l(B.MD));
+    m || (m = l(D.MD));
     const f = k(() => {
       let v = [
         {
@@ -291,7 +291,7 @@ const be = /* @__PURE__ */ E({
           label: "Property",
           isForAccordionHeader: !0,
           field: {
-            type: I.Text,
+            type: $.Text,
             icon: "lkt-icn-lang-picker"
           }
         }
@@ -300,7 +300,7 @@ const be = /* @__PURE__ */ E({
         type: A.Field,
         key: "value",
         label: "Value",
-        ensureFieldLabel: m.value < B.MD,
+        ensureFieldLabel: m.value < D.MD,
         field: {
           type: "prop:type",
           readModeConfig: {
@@ -333,7 +333,7 @@ const be = /* @__PURE__ */ E({
       },
       items: [
         X.mkFieldItemConfig("property", {
-          type: I.Text,
+          type: $.Text,
           label: "Property"
         })
         // FormInstance.mkFieldItemConfig('value', {
@@ -343,15 +343,15 @@ const be = /* @__PURE__ */ E({
       ]
     }));
     return (v, b) => {
-      const _ = H("lkt-table");
-      return n(e) ? (C(), q("section", Be, [
+      const _ = I("lkt-table");
+      return n(e) ? (B(), q("section", De, [
         te(_, j({
           ref_key: "spaRef",
           ref: g,
           modelValue: c.value,
           "onUpdate:modelValue": b[0] || (b[0] = (h) => c.value = h)
         }, {
-          type: n(m) < n(B).MD ? n(L).Accordion : n(L).Table,
+          type: n(m) < n(D).MD ? n(L).Accordion : n(L).Table,
           rowDisplayType: n(le).PreferColumns,
           header: w.value,
           editMode: !0,
@@ -369,7 +369,7 @@ const be = /* @__PURE__ */ E({
               to: `/admin/${i.value}/new`
             }
           },
-          itemsContainerClass: n(m) < n(B).MD ? "lkt-grid-1 xs-grid-style" : "",
+          itemsContainerClass: n(m) < n(D).MD ? "lkt-grid-1 xs-grid-style" : "",
           accordion: {
             contentClass: "lkt-flex-column",
             toggleIconAtEnd: !0,
@@ -380,10 +380,10 @@ const be = /* @__PURE__ */ E({
       ])) : W("", !0);
     };
   }
-}), De = {
+}), xe = {
   key: 0,
   class: "lkt-admin-spa"
-}, se = /* @__PURE__ */ E({
+}, de = /* @__PURE__ */ E({
   __name: "LktAdminTranslationSpa",
   props: {
     onCreateTo: {},
@@ -394,7 +394,7 @@ const be = /* @__PURE__ */ E({
     u.value || (window.location.href = "/");
     const a = G(), o = oe(), s = l(parseInt(a.params.id)), c = l(!1), g = l(!1), d = l(["create", "switch-edit-mode"]);
     let i = M("lktAppSize");
-    i || (i = l(B.MD));
+    i || (i = l(D.MD));
     const t = l(U.getWebItemSettings(e.many ? "lkt-many-i18n" : "lkt-i18n")), m = k(() => e.many && !a.query.parentId), f = l({
       property: "",
       type: m.value ? Q.Many : Q.Text,
@@ -410,20 +410,20 @@ const be = /* @__PURE__ */ E({
     O(a, (h) => {
       s.value = parseInt(a.params.id), g.value = !1, c.value = !1, f.value = {
         property: "",
-        type: m.value ? "many" : I.Text,
+        type: m.value ? "many" : $.Text,
         value: "",
         parentId: 0,
         valueData: {},
         children: [],
         ...a.query
-      }, d.value = ["create", "switch-edit-mode"], $(() => {
-        V(), $(() => g.value = !0);
+      }, d.value = ["create", "switch-edit-mode"], P(() => {
+        V(), P(() => g.value = !0);
       });
     }, { flush: "pre", immediate: !0, deep: !0 }), k(() => !1);
     const v = k(() => (h) => ({
       items: [
         X.mkFieldItemConfig("property", {
-          type: I.Text,
+          type: $.Text,
           label: "Property",
           mandatory: !0,
           validation: {
@@ -431,7 +431,7 @@ const be = /* @__PURE__ */ E({
           }
         }),
         X.mkFieldItemConfig("type", {
-          type: I.Select,
+          type: $.Select,
           mandatory: !0,
           label: "Type",
           options: [Q.Text, Q.Textarea, Q.Many],
@@ -453,7 +453,7 @@ const be = /* @__PURE__ */ E({
           }
         }, {}, { canRender: f.value.type !== "many" }),
         X.mkFieldItemConfig("children", {
-          type: I.Table,
+          type: $.Table,
           multiple: !0,
           options: "prop:children",
           optionValueType: "option",
@@ -479,7 +479,7 @@ const be = /* @__PURE__ */ E({
                 canRender: !0,
                 dragKey: "drag-indicator"
               },
-              perms: [ge.Create],
+              perms: [be.Create],
               requiredItemsForTopCreate: 999,
               columns: [
                 {
@@ -487,7 +487,7 @@ const be = /* @__PURE__ */ E({
                   label: "Property",
                   type: A.Field,
                   field: {
-                    type: I.Text,
+                    type: $.Text,
                     icon: "lkt-icn-lang-picker"
                   }
                 },
@@ -495,7 +495,7 @@ const be = /* @__PURE__ */ E({
                   key: "valueData",
                   label: "Value",
                   type: A.Field,
-                  ensureFieldLabel: i.value < B.MD,
+                  ensureFieldLabel: i.value < D.MD,
                   field: {
                     type: "prop:type",
                     canI18n: !0,
@@ -521,7 +521,7 @@ const be = /* @__PURE__ */ E({
               createButton: {
                 type: R.Anchor,
                 anchor: {
-                  type: ke.RouterLink,
+                  type: ge.RouterLink,
                   to: {
                     path: `/admin/${w.value}/new`,
                     query: {
@@ -583,7 +583,7 @@ const be = /* @__PURE__ */ E({
             o.push({
               path: `/admin/${w.value}/new`,
               query: {
-                keepCreating: pe()
+                keepCreating: me()
               },
               replace: !0
             });
@@ -609,24 +609,24 @@ const be = /* @__PURE__ */ E({
       // redirectOnCreate,
     }));
     return (h, T) => {
-      const p = H("lkt-item-crud"), y = H("lkt-loader");
-      return n(u) ? (C(), q("section", De, [
-        g.value ? (C(), N(p, j({
+      const p = I("lkt-item-crud"), y = I("lkt-loader");
+      return n(u) ? (B(), q("section", xe, [
+        g.value ? (B(), N(p, j({
           key: 0,
           modelValue: f.value,
-          "onUpdate:modelValue": T[0] || (T[0] = (D) => f.value = D),
+          "onUpdate:modelValue": T[0] || (T[0] = (C) => f.value = C),
           editing: c.value,
-          "onUpdate:editing": T[1] || (T[1] = (D) => c.value = D),
+          "onUpdate:editing": T[1] || (T[1] = (C) => c.value = C),
           perms: d.value,
-          "onUpdate:perms": T[2] || (T[2] = (D) => d.value = D)
-        }, _.value), null, 16, ["modelValue", "editing", "perms"])) : (C(), N(y, { key: 1 }))
+          "onUpdate:perms": T[2] || (T[2] = (C) => d.value = C)
+        }, _.value), null, 16, ["modelValue", "editing", "perms"])) : (B(), N(y, { key: 1 }))
       ])) : W("", !0);
     };
   }
-}), xe = {
+}), Ae = {
   key: 0,
   class: "lkt-admin-spa lkt-web-items"
-}, Ae = /* @__PURE__ */ E({
+}, Me = /* @__PURE__ */ E({
   __name: "LktWebItemsSpa",
   setup(r) {
     const e = M("lktAdminEnabled");
@@ -638,12 +638,12 @@ const be = /* @__PURE__ */ E({
       typeof i.value.appHeaderMany == "function" ? S(i.value.appHeaderMany({ item: item.value })) : typeof i.value.appHeaderMany == "object" && Object.keys(i.value.appHeaderMany).length > 0 && S(i.value.appHeaderMany);
     };
     O(u, (v) => {
-      a.value = u.params.type, o.value = u.params.id, c.value.splice(0, c.value.length), d.value = !1, s.value.type = a.value, i.value = U.getWebItemSettings(a.value), $(() => {
-        t(), $(() => d.value = !0);
+      a.value = u.params.type, o.value = u.params.id, c.value.splice(0, c.value.length), d.value = !1, s.value.type = a.value, i.value = U.getWebItemSettings(a.value), P(() => {
+        t(), P(() => d.value = !0);
       });
     }, { flush: "pre", immediate: !0, deep: !0 });
     let m = M("lktAppSize");
-    m || (m = l(B.MD));
+    m || (m = l(D.MD));
     const f = k(() => i.value.many.columns ? [
       ...i.value.many.columns,
       {
@@ -665,7 +665,7 @@ const be = /* @__PURE__ */ E({
         label: "Name",
         isForAccordionHeader: !0,
         field: {
-          type: I.Text,
+          type: $.Text,
           icon: i.value.icon
         }
       },
@@ -698,19 +698,19 @@ const be = /* @__PURE__ */ E({
         ...(_ = i.value.many) == null ? void 0 : _.createButton
       };
     });
-    return de(() => {
+    return pe(() => {
       d.value = !0;
     }), (v, b) => {
-      const _ = H("lkt-table");
-      return n(e) ? (C(), q("section", xe, [
-        d.value ? (C(), N(_, j({
+      const _ = I("lkt-table");
+      return n(e) ? (B(), q("section", Ae, [
+        d.value ? (B(), N(_, j({
           key: 0,
           ref_key: "spaRef",
           ref: g,
           modelValue: c.value,
           "onUpdate:modelValue": b[0] || (b[0] = (h) => c.value = h)
         }, {
-          type: n(m) < n(B).MD ? n(L).Accordion : n(L).Table,
+          type: n(m) < n(D).MD ? n(L).Accordion : n(L).Table,
           rowDisplayType: n(le).PreferColumns,
           editMode: !0,
           requiredItemsForBottomCreate: 99,
@@ -718,7 +718,7 @@ const be = /* @__PURE__ */ E({
             resource: "ls-web-items",
             resourceData: s.value
           },
-          itemsContainerClass: n(m) < n(B).MD ? "lkt-grid-1 xs-grid-style" : "",
+          itemsContainerClass: n(m) < n(D).MD ? "lkt-grid-1 xs-grid-style" : "",
           accordion: {
             contentClass: "lkt-flex-column",
             toggleIconAtEnd: !0,
@@ -732,10 +732,10 @@ const be = /* @__PURE__ */ E({
       ])) : W("", !0);
     };
   }
-}), Me = {
+}), Re = {
   key: 0,
   class: "lkt-admin-spa lkt-web-item-spa"
-}, Re = /* @__PURE__ */ E({
+}, Ie = /* @__PURE__ */ E({
   __name: "LktWebItemSpa",
   props: {
     id: {},
@@ -749,9 +749,9 @@ const be = /* @__PURE__ */ E({
       typeof t.value.appHeaderSingle == "function" ? S(t.value.appHeaderSingle({ item: f.value })) : typeof t.value.appHeaderSingle == "object" && Object.keys(t.value.appHeaderSingle).length > 0 && S(t.value.appHeaderSingle);
     };
     O(a, (p) => {
-      s.value = a.params.type, c.value = a.params.id, g.value = !1, d.value = !1, i.value = ["create"], t.value = U.getWebItemSettings(s.value), $(() => {
-        f.value = m(a.query), $(() => {
-          w(), $(() => g.value = !0);
+      s.value = a.params.type, c.value = a.params.id, g.value = !1, d.value = !1, i.value = ["create"], t.value = U.getWebItemSettings(s.value), P(() => {
+        f.value = m(a.query), P(() => {
+          w(), P(() => g.value = !0);
         });
       });
     }, { flush: "pre", immediate: !0, deep: !0 });
@@ -767,12 +767,18 @@ const be = /* @__PURE__ */ E({
         text: "Create",
         ...t.value.single.createButton,
         events: {
-          click: (D) => {
+          click: (C) => {
             var F, x, K, J;
-            typeof ((x = (F = t.value.single.createButton) == null ? void 0 : F.events) == null ? void 0 : x.click) == "function" && ((J = (K = t.value.single.createButton) == null ? void 0 : K.events) == null || J.click(D)), u.onCreateTo && o.push({
-              path: u.onCreateTo,
-              replace: !0
-            });
+            typeof ((x = (F = t.value.single.createButton) == null ? void 0 : F.events) == null ? void 0 : x.click) == "function" && ((J = (K = t.value.single.createButton) == null ? void 0 : K.events) == null || J.click(C));
+          }
+        },
+        hooks: {
+          redirectType: "replace",
+          onSuccessRedirectTo: (C) => {
+            if (u.onCreateTo)
+              return u.onCreateTo;
+            if (C.httpResponse.autoReloadId)
+              return `/admin/web-items/${s.value}/${C.httpResponse.autoReloadId}`;
           }
         }
       };
@@ -784,12 +790,12 @@ const be = /* @__PURE__ */ E({
         text: "Create",
         ...t.value.single.createAndNewButton,
         events: {
-          click: (D) => {
+          click: (C) => {
             var F, x, K, J;
-            typeof ((x = (F = t.value.single.createAndNewButton) == null ? void 0 : F.events) == null ? void 0 : x.click) == "function" && ((J = (K = t.value.single.createAndNewButton) == null ? void 0 : K.events) == null || J.click(D)), o.push({
+            typeof ((x = (F = t.value.single.createAndNewButton) == null ? void 0 : F.events) == null ? void 0 : x.click) == "function" && ((J = (K = t.value.single.createAndNewButton) == null ? void 0 : K.events) == null || J.click(C)), o.push({
               path: `/admin/web-items/${s.value}/new`,
               query: {
-                keepCreating: pe()
+                keepCreating: me()
               },
               replace: !0
             });
@@ -819,14 +825,14 @@ const be = /* @__PURE__ */ E({
         ...t.value.single.dropButton
       };
     }), T = (p) => `/admin/web-items/${s.value}/${p}`;
-    return de(() => {
-      $(() => {
+    return pe(() => {
+      P(() => {
         w();
       });
     }), (p, y) => {
-      const D = H("lkt-item-crud"), F = H("lkt-loader");
-      return n(e) ? (C(), q("section", Me, [
-        g.value ? (C(), N(D, j({
+      const C = I("lkt-item-crud"), F = I("lkt-loader");
+      return n(e) ? (B(), q("section", Re, [
+        g.value ? (B(), N(C, j({
           key: 0,
           modelValue: f.value,
           "onUpdate:modelValue": y[0] || (y[0] = (x) => f.value = x),
@@ -846,26 +852,27 @@ const be = /* @__PURE__ */ E({
           createAndNewButton: b.value,
           updateButton: _.value,
           dropButton: h.value
-        }), null, 16, ["modelValue", "editing", "perms"])) : (C(), N(F, { key: 1 }))
+        }), null, 16, ["modelValue", "editing", "perms"])) : (B(), N(F, { key: 1 }))
       ])) : W("", !0);
     };
   }
-}), Ve = () => {
+}), Fe = () => {
   Y({
     url: "/translations",
     name: "ls-lkt-i18n",
     params: { property: { default: void 0 }, value: { default: void 0 }, type: { default: void 0 }, page: { default: void 0 } },
     digToPerms: "perms",
     digToData: "results",
-    mapData: (r) => r
+    digToMaxPage: "maxPage",
+    mapData: (r) => r.map((e) => new ue(e))
   }), Y({
     url: "/translation/{id}",
     name: "r-i18n",
     params: { id: { default: void 0 }, type: { default: void 0 } },
     digToPerms: "perms",
     digToData: "item",
-    mapData: (r) => r
-  }), me({
+    mapData: (r) => new ue(r)
+  }), ce({
     url: "/translation",
     name: "mk-i18n",
     params: {
@@ -876,7 +883,7 @@ const be = /* @__PURE__ */ E({
     },
     digToPerms: "perms",
     digToAutoReloadId: "item.id"
-  }), ce({
+  }), ve({
     url: "/translation/{id}",
     name: "up-i18n",
     params: {
@@ -886,7 +893,7 @@ const be = /* @__PURE__ */ E({
       valueData: { default: void 0 }
     },
     digToPerms: "perms"
-  }), ve({
+  }), ye({
     url: "/translation/{id}",
     name: "rm-i18n",
     params: {
@@ -895,7 +902,7 @@ const be = /* @__PURE__ */ E({
     digToPerms: "perms",
     digToData: "item"
   });
-}, Fe = () => {
+}, Ue = () => {
   Y({
     url: "/user/roles/page-{page}",
     name: "ls-user-role",
@@ -916,7 +923,7 @@ const be = /* @__PURE__ */ E({
     digToPerms: "perms",
     digToData: "item",
     mapData: (r) => r
-  }), me({
+  }), ce({
     url: "/user/role",
     name: "mk-user-role",
     params: {
@@ -925,7 +932,7 @@ const be = /* @__PURE__ */ E({
     },
     digToPerms: "perms",
     digToAutoReloadId: "item.id"
-  }), ce({
+  }), ve({
     url: "/user/role/{id}",
     name: "up-user-role",
     params: {
@@ -934,7 +941,7 @@ const be = /* @__PURE__ */ E({
       permissions: { default: void 0 }
     },
     digToPerms: "perms"
-  }), ve({
+  }), ye({
     url: "/user/role/{id}",
     name: "rm-user-role",
     params: {
@@ -943,28 +950,28 @@ const be = /* @__PURE__ */ E({
     digToPerms: "perms",
     digToData: "item"
   });
-}, Ue = {
+}, Le = {
   install: (r) => {
-    r.component("lkt-admin-menu-button") === void 0 && r.component("lkt-admin-menu-button", be), r.component("lkt-admin-menu") === void 0 && r.component("lkt-admin-menu", he);
+    r.component("lkt-admin-menu-button") === void 0 && r.component("lkt-admin-menu-button", he), r.component("lkt-admin-menu") === void 0 && r.component("lkt-admin-menu", Te);
   }
-}, P = (r, e) => {
-}, Le = (r) => {
-  r.addRoute({ path: "/admin/web-pages/:type", name: "lkt-admin-pages", component: _e, beforeEnter: P }), r.addRoute({ path: "/admin/web-pages/:type/:id", name: "lkt-admin-page", component: Ce, beforeEnter: P }), r.addRoute({ path: "/admin/web-items/:type", name: "lkt-web-items", component: Ae, beforeEnter: P }), r.addRoute({ path: "/admin/web-items/:type/:id", name: "lkt-web-item", component: Re, beforeEnter: P, props: (e) => ({
+}, H = (r, e) => {
+}, qe = (r) => {
+  r.addRoute({ path: "/admin/web-pages/:type", name: "lkt-admin-pages", component: we, beforeEnter: H }), r.addRoute({ path: "/admin/web-pages/:type/:id", name: "lkt-admin-page", component: Be, beforeEnter: H }), r.addRoute({ path: "/admin/web-items/:type", name: "lkt-web-items", component: Me, beforeEnter: H }), r.addRoute({ path: "/admin/web-items/:type/:id", name: "lkt-web-item", component: Ie, beforeEnter: H, props: (e) => ({
     id: e.params.id,
     type: e.params.type,
     onCreateTo: e.query.onCreateTo ?? ""
-  }) }), r.addRoute({ path: "/admin/i18n", name: "lkt-admin-translations", component: ue, beforeEnter: P }), r.addRoute({ path: "/admin/i18n/:id", name: "lkt-admin-translation", component: se, beforeEnter: P, props: (e) => ({
+  }) }), r.addRoute({ path: "/admin/i18n", name: "lkt-admin-translations", component: se, beforeEnter: H }), r.addRoute({ path: "/admin/i18n/:id", name: "lkt-admin-translation", component: de, beforeEnter: H, props: (e) => ({
     onCreateTo: e.query.onCreateTo ?? ""
-  }) }), r.addRoute({ path: "/admin/many-i18n", name: "lkt-admin-many-translations", component: ue, beforeEnter: P, props: (e) => ({
+  }) }), r.addRoute({ path: "/admin/many-i18n", name: "lkt-admin-many-translations", component: se, beforeEnter: H, props: (e) => ({
     many: !0
-  }) }), r.addRoute({ path: "/admin/many-i18n/:id", name: "lkt-admin-many-translation", component: se, beforeEnter: P, props: (e) => ({
+  }) }), r.addRoute({ path: "/admin/many-i18n/:id", name: "lkt-admin-many-translation", component: de, beforeEnter: H, props: (e) => ({
     many: !0,
     onCreateTo: e.query.onCreateTo ?? ""
   }) });
 };
 export {
-  Ue as default,
-  Ve as setupAdminTranslationsHttp,
-  Fe as setupAdminUserRoleHttp,
-  Le as setupLktVueAdminRoutes
+  Le as default,
+  Fe as setupAdminTranslationsHttp,
+  Ue as setupAdminUserRoleHttp,
+  qe as setupLktVueAdminRoutes
 };

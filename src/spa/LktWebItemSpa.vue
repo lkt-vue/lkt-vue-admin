@@ -90,11 +90,23 @@ const header = computed(() => {
                 click: (data: ClickEventArgs) => {
                     //@ts-ignore
                     if (typeof settings.value.single.createButton?.events?.click === 'function') settings.value.single.createButton?.events?.click(data);
+                    // if (props.onCreateTo) {
+                    //     router.push({
+                    //         path: props.onCreateTo,
+                    //         replace: true,
+                    //     })
+                    // }
+                }
+            },
+            hooks: {
+                redirectType: 'replace',
+                onSuccessRedirectTo: data => {
                     if (props.onCreateTo) {
-                        router.push({
-                            path: props.onCreateTo,
-                            replace: true,
-                        })
+                        return props.onCreateTo
+                    }
+
+                    if (data.httpResponse.autoReloadId) {
+                        return `/admin/web-items/${type.value}/${data.httpResponse.autoReloadId}`
                     }
                 }
             }
