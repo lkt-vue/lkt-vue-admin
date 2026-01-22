@@ -1,4 +1,4 @@
-import {App, inject, Plugin, Ref} from 'vue';
+import {App, Plugin} from 'vue';
 import {Router} from 'vue-router';
 
 import "../styles.css";
@@ -6,8 +6,6 @@ import LktAdminMenuButton from "./lib-components/LktAdminMenuButton.vue";
 import LktAdminMenu from "./lib-components/LktAdminMenu.vue";
 import LktAdminPagesSpa from "./spa/LktAdminPagesSpa.vue";
 import LktAdminPageSpa from "./spa/LktAdminPageSpa.vue";
-import LktAdminTranslationsSpa from "./spa/LktAdminTranslationsSpa.vue";
-import LktAdminTranslationSpa from "./spa/LktAdminTranslationSpa.vue";
 import LktWebItemsSpa from "./spa/LktWebItemsSpa.vue";
 import LktWebItemSpa from "./spa/LktWebItemSpa.vue";
 
@@ -33,23 +31,6 @@ export const setupLktVueAdminRoutes = (router: Router) => {
             return {
                 id: route.params.id,
                 type: route.params.type,
-                onCreateTo: route.query.onCreateTo ?? '',
-            }
-        }});
-    router.addRoute({path: '/admin/i18n', name: 'lkt-admin-translations', component: LktAdminTranslationsSpa, beforeEnter: navigationGuard});
-    router.addRoute({path: '/admin/i18n/:id', name: 'lkt-admin-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard, props: (route) => {
-            return {
-                onCreateTo: route.query.onCreateTo ?? '',
-            }
-        }});
-    router.addRoute({path: '/admin/many-i18n', name: 'lkt-admin-many-translations', component: LktAdminTranslationsSpa, beforeEnter: navigationGuard, props: (route) => {
-            return {
-                many: true,
-            }
-        }});
-    router.addRoute({path: '/admin/many-i18n/:id', name: 'lkt-admin-many-translation', component: LktAdminTranslationSpa, beforeEnter: navigationGuard, props: (route) => {
-            return {
-                many: true,
                 onCreateTo: route.query.onCreateTo ?? '',
             }
         }});

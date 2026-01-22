@@ -1,7 +1,7 @@
-declare namespace Le {
-    function install(r: any): void;
+declare namespace Pe {
+    function install(o: any): void;
 }
-declare function Fe(): void;
-declare function Ue(): void;
-declare function qe(r: any): void;
-export { Le as default, Fe as setupAdminTranslationsHttp, Ue as setupAdminUserRoleHttp, qe as setupLktVueAdminRoutes };
+declare function xe(): void;
+declare function Re(): void;
+declare function Me(o: any): void;
+export { Pe as default, xe as setupAdminTranslationsHttp, Re as setupAdminUserRoleHttp, Me as setupLktVueAdminRoutes };
