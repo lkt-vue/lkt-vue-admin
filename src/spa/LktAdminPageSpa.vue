@@ -1,20 +1,67 @@
 <script setup lang="ts">
-import {FileBrowserConfig, ItemCrudButtonNavVisibility, ItemCrudConfig, ItemCrudMode, WebPage} from "lkt-vue-kernel";
-import {ref, watch} from "vue";
+import {
+    FileBrowserConfig,
+    ItemCrudButtonNavVisibility,
+    ItemCrudConfig,
+    ItemCrudMode, LktObject, WebItemsController,
+    WebPage,
+    WebPageController
+} from "lkt-vue-kernel";
+import {nextTick, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {updateMainHeader} from "lkt-vue-app";
 
 
 const route = useRoute(), router = useRouter();
 
 const type = ref(route.params.type),
-    id = ref(route.params.id);
+    id = ref(route.params.id),
+    ready = ref(false),
+    editing = ref(false),
+    perms = ref(['create']);
 
 watch(route, (to) => {
     type.value = route.params.type;
     id.value = route.params.id;
 }, {flush: 'pre', immediate: true, deep: true});
 
-const item = ref(<WebPage>{});
+const settings = ref(WebPageController.getCustomWebPageSettings(type.value))
+
+const generateItem = (data: LktObject) => {
+    if (typeof settings.value?.itemGenerator == 'function') {
+        return settings.value.itemGenerator(data);
+    }
+
+    return new WebPage({
+        ...data,
+    })
+}
+
+const item = ref(<WebPage>generateItem(route.query));
+
+const updateHeader = () => {
+    if (typeof settings.value?.appHeaderSingle === 'function') {
+        updateMainHeader(settings.value.appHeaderSingle({item: item.value}));
+    } else if (typeof settings.value?.appHeaderSingle === 'object' && Object.keys(settings.value.appHeaderSingle).length > 0) {
+        updateMainHeader(settings.value.appHeaderSingle);
+    }
+}
+
+watch(route, (to) => {
+    type.value = route.params.type;
+    id.value = route.params.id;
+    ready.value = false;
+    editing.value = false;
+    perms.value = ['create'];
+    settings.value = WebPageController.getCustomWebPageSettings(type.value);
+    nextTick(() => {
+        item.value = generateItem(route.query);
+        nextTick(() => {
+            updateHeader();
+            nextTick(() => ready.value = true);
+        });
+    })
+}, {flush: 'pre', immediate: true, deep: true});
 
 const redirectOnCreate = (id: string|number) => {
     return `/admin/web-pages/${type.value}/${id}`;
@@ -24,6 +71,7 @@ const redirectOnCreate = (id: string|number) => {
 <template>
     <section class="lkt-admin-spa">
         <lkt-web-page
+            v-if="ready"
             v-model="item"
             :crud-config="<ItemCrudConfig>{
                 readResource: 'r-web-page',

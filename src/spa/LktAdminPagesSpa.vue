@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import {computed, inject, Ref, ref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, Ref, ref, watch} from "vue";
 import {
     AppSize,
     ButtonType,
     ColumnConfig,
     ColumnType,
-    FieldType,
+    FieldType, HeaderConfig,
     LktObject, LktSettings,
     TableConfig,
     TableRowType,
-    TableType,
+    TableType, WebItemsController,
     WebPageController
 } from "lkt-vue-kernel";
 import {useRoute} from "vue-router";
+import {updateMainHeader} from "lkt-vue-app";
 
 
 const route = useRoute();
 
-const type = ref(route.params.type),
+const type = ref(<string>route.params.type),
     id = ref(route.params.id);
 
 const filters = ref({
@@ -25,12 +26,31 @@ const filters = ref({
         type: type.value,
     }),
     items = ref([]),
-    spaRef = ref(null);
+    spaRef = ref(null),
+    ready = ref(false);
+
+const settings = ref(WebPageController.getCustomWebPageSettings(type.value))
+
+const updateHeader = () => {
+    if (typeof settings.value.appHeaderMany === 'function') {
+        updateMainHeader(settings.value.appHeaderMany({items: items.value}));
+    } else if (typeof settings.value.appHeaderMany === 'object' && Object.keys(settings.value.appHeaderMany).length > 0) {
+        updateMainHeader(settings.value.appHeaderMany);
+    }
+}
 
 watch(route, (to) => {
-    type.value = route.params.type;
+    type.value = route.params.type as string;
     id.value = route.params.id;
     filters.value.type = type.value;
+    ready.value = false;
+
+    settings.value = WebPageController.getCustomWebPageSettings(type.value);
+
+    nextTick(() => {
+        updateHeader();
+        nextTick(() => ready.value = true);
+    })
 }, {flush: 'pre', immediate: true, deep: true});
 
 let appSize = <Ref<AppSize>>inject('lktAppSize');
@@ -64,31 +84,44 @@ const columns = computed(() => {
     ];
 })
 
-const computedTitle = computed(() => {
-    let r = 'Web Pages';
-    WebPageController.getPages().forEach(page => {
-        if (page.id == type.value) {
-            r = page.label ?? 'Web Pages';
-            return;
+const header = computed(() => {
+        if (typeof settings.value?.appHeaderMany !== 'undefined') return {};
+        let text = settings.value?.labelMany ?? '';
+        return <HeaderConfig>{
+            text,
+            icon: settings.value?.icon,
+            tag: 'h1',
         }
-    })
-    return r;
+    });
+
+// const computedTitle = computed(() => {
+//     let r = 'Web Pages';
+//     WebPageController.getPages().forEach(page => {
+//         if (page.id == type.value) {
+//             r = page.label ?? 'Web Pages';
+//             return;
+//         }
+//     })
+//     return r;
+// })
+
+onMounted(() => {
+    ready.value = true;
 })
 </script>
 
 <template>
     <section class="lkt-admin-spa lkt-admin-pages">
         <lkt-table
+            v-if="ready"
             ref="spaRef"
             v-model="items"
             v-bind="<TableConfig>{
                 type: appSize < AppSize.MD ? TableType.Accordion : TableType.Table,
                 rowDisplayType: TableRowType.PreferColumns,
-                title: computedTitle,
-                titleTag: 'h1',
-                titleIcon: 'lkt-icn-webpage',
                 editMode: true,
                 requiredItemsForBottomCreate: 99,
+                header,
                 columns,
                 paginator: {
                     resource: 'ls-web-pages-type',

@@ -35,7 +35,7 @@ const settings = ref(WebItemsController.getWebItemSettings(type.value))
 
 const updateHeader = () => {
     if (typeof settings.value.appHeaderMany === 'function') {
-        updateMainHeader(settings.value.appHeaderMany({item: item.value}));
+        updateMainHeader(settings.value.appHeaderMany({items: items.value}));
     } else if (typeof settings.value.appHeaderMany === 'object' && Object.keys(settings.value.appHeaderMany).length > 0) {
         updateMainHeader(settings.value.appHeaderMany);
     }
