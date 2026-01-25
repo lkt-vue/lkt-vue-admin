@@ -94,7 +94,7 @@ const columns = computed(() => {
         {
             type: ColumnType.Button,
             key: 'details',
-            label: 'Details',
+            label: '',
             button: {
                 ...LktSettings.defaultDetailsButton,
                 type: ButtonType.Anchor,

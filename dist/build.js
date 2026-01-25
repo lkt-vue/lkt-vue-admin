@@ -1,21 +1,21 @@
-import { defineComponent as V, inject as H, resolveComponent as x, createBlock as S, createCommentVNode as $, unref as r, openBlock as h, mergeProps as J, isRef as ie, computed as w, createElementBlock as q, normalizeClass as se, createVNode as de, ref as n, watch as L, nextTick as T, onMounted as Y } from "vue";
+import { defineComponent as V, inject as x, resolveComponent as D, createBlock as S, createCommentVNode as $, unref as l, openBlock as h, mergeProps as J, isRef as ie, computed as w, createElementBlock as q, normalizeClass as se, createVNode as de, ref as n, watch as L, nextTick as T, onMounted as Y } from "vue";
 import { ButtonType as P, WebPageController as E, MenuEntryType as F, WebItemsController as j, AppSize as R, FieldType as ee, ColumnType as W, LktSettings as X, TableRowType as te, TableType as z, ItemCrudButtonNavVisibility as ae, ItemCrudMode as G, WebPage as pe, LktTranslation as Z } from "lkt-vue-kernel";
 import { useRoute as K, useRouter as ne } from "vue-router";
 import { updateMainHeader as A } from "lkt-vue-app";
 import { time as me } from "lkt-date-tools";
-import { createHTTPGetResource as N, createHTTPPostResource as le, createHTTPPutResource as re, createHTTPDeleteResource as oe } from "lkt-http-client";
+import { createHTTPGetResource as N, createHTTPPostResource as re, createHTTPPutResource as le, createHTTPDeleteResource as oe } from "lkt-http-client";
 const ce = /* @__PURE__ */ V({
   __name: "LktAdminMenuButton",
   setup(o) {
-    const e = H("adminMenu"), s = H("lktAdminEnabled");
-    return (a, l) => {
-      const d = x("lkt-button");
-      return r(s) ? (h(), S(d, J({
+    const e = x("adminMenu"), s = x("lktAdminEnabled");
+    return (a, r) => {
+      const d = D("lkt-button");
+      return l(s) ? (h(), S(d, J({
         key: 0,
-        checked: r(e),
-        "onUpdate:checked": l[0] || (l[0] = (y) => ie(e) ? e.value = y : null)
+        checked: l(e),
+        "onUpdate:checked": r[0] || (r[0] = (y) => ie(e) ? e.value = y : null)
       }, {
-        type: r(P).HiddenSwitch,
+        type: l(P).HiddenSwitch,
         icon: "lkt-icn-lkt",
         class: "lkt-admin-button"
       }), null, 16, ["checked"])) : $("", !0);
@@ -24,7 +24,7 @@ const ce = /* @__PURE__ */ V({
 }), ve = /* @__PURE__ */ V({
   __name: "LktAdminMenu",
   setup(o) {
-    const e = H("adminMenu"), s = w(() => {
+    const e = x("adminMenu"), s = w(() => {
       let a = [];
       return E.hasDefaultPageEnabled() && a.push({
         key: "web-pages",
@@ -39,14 +39,14 @@ const ce = /* @__PURE__ */ V({
             }
           }
         }
-      }), E.getPages().forEach((l) => {
+      }), E.getPages().forEach((r) => {
         a.push({
-          key: l.code,
+          key: r.code,
           type: F.Entry,
           icon: "lkt-icn-webpage",
           anchor: {
-            to: `/admin/web-pages/${l.id}`,
-            text: l.label,
+            to: `/admin/web-pages/${r.id}`,
+            text: r.label,
             events: {
               click: () => {
                 e.value = !1;
@@ -54,14 +54,14 @@ const ce = /* @__PURE__ */ V({
             }
           }
         });
-      }), j.getItems().forEach((l) => {
-        l.many !== !1 && a.push({
-          key: l.code,
+      }), j.getItems().forEach((r) => {
+        r.many !== !1 && a.push({
+          key: r.code,
           type: F.Entry,
-          icon: l.icon,
+          icon: r.icon,
           anchor: {
-            to: `/admin/web-items/${l.code}`,
-            text: l.labelMany,
+            to: `/admin/web-items/${r.code}`,
+            text: r.labelMany,
             events: {
               click: () => {
                 e.value = !1;
@@ -86,14 +86,14 @@ const ce = /* @__PURE__ */ V({
         }
       ), a;
     });
-    return (a, l) => {
-      const d = x("lkt-menu");
+    return (a, r) => {
+      const d = D("lkt-menu");
       return h(), q("div", {
-        class: se(["lkt-admin-menu", r(e) ? "is-opened" : ""])
+        class: se(["lkt-admin-menu", l(e) ? "is-opened" : ""])
       }, [
         de(d, {
           "model-value": s.value,
-          onClickOutside: l[0] || (l[0] = (y) => e.value = !1)
+          onClickOutside: r[0] || (r[0] = (y) => e.value = !1)
         }, null, 8, ["model-value"])
       ], 2);
     };
@@ -101,18 +101,18 @@ const ce = /* @__PURE__ */ V({
 }), fe = { class: "lkt-admin-spa lkt-admin-pages" }, ye = /* @__PURE__ */ V({
   __name: "LktAdminPagesSpa",
   setup(o) {
-    const e = K(), s = n(e.params.type), a = n(e.params.id), l = n({
+    const e = K(), s = n(e.params.type), a = n(e.params.id), r = n({
       name: "",
       type: s.value
     }), d = n([]), y = n(null), k = n(!1), u = n(E.getCustomWebPageSettings(s.value)), i = () => {
       typeof u.value.appHeaderMany == "function" ? A(u.value.appHeaderMany({ items: d.value })) : typeof u.value.appHeaderMany == "object" && Object.keys(u.value.appHeaderMany).length > 0 && A(u.value.appHeaderMany);
     };
     L(e, (p) => {
-      s.value = e.params.type, a.value = e.params.id, l.value.type = s.value, k.value = !1, u.value = E.getCustomWebPageSettings(s.value), T(() => {
+      s.value = e.params.type, a.value = e.params.id, r.value.type = s.value, k.value = !1, u.value = E.getCustomWebPageSettings(s.value), T(() => {
         i(), T(() => k.value = !0);
       });
     }, { flush: "pre", immediate: !0, deep: !0 });
-    let t = H("lktAppSize");
+    let t = x("lktAppSize");
     t || (t = n(R.MD));
     const b = w(() => [
       {
@@ -128,7 +128,7 @@ const ce = /* @__PURE__ */ V({
       {
         type: W.Button,
         key: "details",
-        label: "Details",
+        label: "",
         button: {
           ...X.defaultDetailsButton,
           type: P.Anchor,
@@ -148,7 +148,7 @@ const ce = /* @__PURE__ */ V({
     return Y(() => {
       k.value = !0;
     }), (p, c) => {
-      const v = x("lkt-table");
+      const v = D("lkt-table");
       return h(), q("section", fe, [
         k.value ? (h(), S(v, J({
           key: 0,
@@ -157,24 +157,24 @@ const ce = /* @__PURE__ */ V({
           modelValue: d.value,
           "onUpdate:modelValue": c[0] || (c[0] = (g) => d.value = g)
         }, {
-          type: r(t) < r(R).MD ? r(z).Accordion : r(z).Table,
-          rowDisplayType: r(te).PreferColumns,
+          type: l(t) < l(R).MD ? l(z).Accordion : l(z).Table,
+          rowDisplayType: l(te).PreferColumns,
           editMode: !0,
           requiredItemsForBottomCreate: 99,
           header: B.value,
           columns: b.value,
           paginator: {
             resource: "ls-web-pages-type",
-            resourceData: l.value
+            resourceData: r.value
           },
           createButton: {
             icon: "lkt-icn-more",
-            type: r(P).Anchor,
+            type: l(P).Anchor,
             anchor: {
               to: `/admin/web-pages/${s.value}/0`
             }
           },
-          itemsContainerClass: r(t) < r(R).MD ? "lkt-grid-1 xs-grid-style" : "",
+          itemsContainerClass: l(t) < l(R).MD ? "lkt-grid-1 xs-grid-style" : "",
           accordion: {
             contentClass: "lkt-flex-column",
             toggleIconAtEnd: !0,
@@ -187,9 +187,9 @@ const ce = /* @__PURE__ */ V({
 }), ge = { class: "lkt-admin-spa" }, ke = /* @__PURE__ */ V({
   __name: "LktAdminPageSpa",
   setup(o) {
-    const e = K(), s = ne(), a = n(e.params.type), l = n(e.params.id), d = n(!1), y = n(!1), k = n(["create"]);
+    const e = K(), s = ne(), a = n(e.params.type), r = n(e.params.id), d = n(!1), y = n(!1), k = n(["create"]);
     L(e, (p) => {
-      a.value = e.params.type, l.value = e.params.id;
+      a.value = e.params.type, r.value = e.params.id;
     }, { flush: "pre", immediate: !0, deep: !0 });
     const u = n(E.getCustomWebPageSettings(a.value)), i = (p) => {
       var c;
@@ -201,7 +201,7 @@ const ce = /* @__PURE__ */ V({
       typeof ((p = u.value) == null ? void 0 : p.appHeaderSingle) == "function" ? A(u.value.appHeaderSingle({ item: t.value })) : typeof ((c = u.value) == null ? void 0 : c.appHeaderSingle) == "object" && Object.keys(u.value.appHeaderSingle).length > 0 && A(u.value.appHeaderSingle);
     };
     L(e, (p) => {
-      a.value = e.params.type, l.value = e.params.id, d.value = !1, y.value = !1, k.value = ["create"], u.value = E.getCustomWebPageSettings(a.value), T(() => {
+      a.value = e.params.type, r.value = e.params.id, d.value = !1, y.value = !1, k.value = ["create"], u.value = E.getCustomWebPageSettings(a.value), T(() => {
         t.value = i(e.query), T(() => {
           b(), T(() => d.value = !0);
         });
@@ -209,7 +209,7 @@ const ce = /* @__PURE__ */ V({
     }, { flush: "pre", immediate: !0, deep: !0 });
     const B = (p) => `/admin/web-pages/${a.value}/${p}`;
     return (p, c) => {
-      const v = x("lkt-web-page");
+      const v = D("lkt-web-page");
       return h(), q("section", ge, [
         d.value ? (h(), S(v, {
           key: 0,
@@ -218,10 +218,10 @@ const ce = /* @__PURE__ */ V({
           "crud-config": {
             readResource: "r-web-page",
             readData: {
-              id: l.value
+              id: r.value
             },
-            mode: l.value > 0 ? r(G).Update : r(G).Create,
-            buttonNavVisibility: r(ae).Always,
+            mode: r.value > 0 ? l(G).Update : l(G).Create,
+            buttonNavVisibility: l(ae).Always,
             editing: !0,
             perms: ["update"],
             createButton: {
@@ -243,7 +243,7 @@ const ce = /* @__PURE__ */ V({
               disabled: !1,
               events: {
                 click: () => {
-                  r(s).back();
+                  l(s).back();
                 }
               }
             },
@@ -284,20 +284,20 @@ const ce = /* @__PURE__ */ V({
 }, _e = /* @__PURE__ */ V({
   __name: "LktWebItemsSpa",
   setup(o) {
-    const e = H("lktAdminEnabled");
+    const e = x("lktAdminEnabled");
     e.value || (window.location.href = "/");
-    const s = K(), a = n(s.params.type), l = n(s.params.id), d = n({
+    const s = K(), a = n(s.params.type), r = n(s.params.id), d = n({
       name: "",
       type: a.value
     }), y = n([]), k = n(null), u = n(!1), i = n(j.getWebItemSettings(a.value)), t = () => {
       typeof i.value.appHeaderMany == "function" ? A(i.value.appHeaderMany({ items: y.value })) : typeof i.value.appHeaderMany == "object" && Object.keys(i.value.appHeaderMany).length > 0 && A(i.value.appHeaderMany);
     };
     L(s, (v) => {
-      a.value = s.params.type, l.value = s.params.id, y.value.splice(0, y.value.length), u.value = !1, d.value.type = a.value, i.value = j.getWebItemSettings(a.value), T(() => {
+      a.value = s.params.type, r.value = s.params.id, y.value.splice(0, y.value.length), u.value = !1, d.value.type = a.value, i.value = j.getWebItemSettings(a.value), T(() => {
         t(), T(() => u.value = !0);
       });
     }, { flush: "pre", immediate: !0, deep: !0 });
-    let b = H("lktAppSize");
+    let b = x("lktAppSize");
     b || (b = n(R.MD));
     const B = w(() => i.value.many.columns ? [
       ...i.value.many.columns,
@@ -327,7 +327,7 @@ const ce = /* @__PURE__ */ V({
       {
         type: W.Button,
         key: "details",
-        label: "Details",
+        label: "",
         button: {
           ...X.defaultDetailsButton,
           type: P.Anchor,
@@ -356,8 +356,8 @@ const ce = /* @__PURE__ */ V({
     return Y(() => {
       u.value = !0;
     }), (v, g) => {
-      const M = x("lkt-table");
-      return r(e) ? (h(), q("section", be, [
+      const M = D("lkt-table");
+      return l(e) ? (h(), q("section", be, [
         u.value ? (h(), S(M, J({
           key: 0,
           ref_key: "spaRef",
@@ -365,15 +365,15 @@ const ce = /* @__PURE__ */ V({
           modelValue: y.value,
           "onUpdate:modelValue": g[0] || (g[0] = (Q) => y.value = Q)
         }, {
-          type: r(b) < r(R).MD ? r(z).Accordion : r(z).Table,
-          rowDisplayType: r(te).PreferColumns,
+          type: l(b) < l(R).MD ? l(z).Accordion : l(z).Table,
+          rowDisplayType: l(te).PreferColumns,
           editMode: !0,
           requiredItemsForBottomCreate: 99,
           paginator: {
             resource: "ls-web-items",
             resourceData: d.value
           },
-          itemsContainerClass: r(b) < r(R).MD ? "lkt-grid-1 xs-grid-style" : "",
+          itemsContainerClass: l(b) < l(R).MD ? "lkt-grid-1 xs-grid-style" : "",
           accordion: {
             contentClass: "lkt-flex-column",
             toggleIconAtEnd: !0,
@@ -398,7 +398,7 @@ const ce = /* @__PURE__ */ V({
     onCreateTo: {}
   },
   setup(o) {
-    const e = H("lktAdminEnabled"), s = o, a = K(), l = ne(), d = n(a.params.type), y = n(a.params.id), k = n(!1), u = n(!1), i = n(["create"]), t = n(j.getWebItemSettings(d.value)), b = (m) => typeof t.value.itemGenerator == "function" ? t.value.itemGenerator(m) : {
+    const e = x("lktAdminEnabled"), s = o, a = K(), r = ne(), d = n(a.params.type), y = n(a.params.id), k = n(!1), u = n(!1), i = n(["create"]), t = n(j.getWebItemSettings(d.value)), b = (m) => typeof t.value.itemGenerator == "function" ? t.value.itemGenerator(m) : {
       ...m
     }, B = n(b(a.query)), p = () => {
       typeof t.value.appHeaderSingle == "function" ? A(t.value.appHeaderSingle({ item: B.value })) : typeof t.value.appHeaderSingle == "object" && Object.keys(t.value.appHeaderSingle).length > 0 && A(t.value.appHeaderSingle);
@@ -423,8 +423,8 @@ const ce = /* @__PURE__ */ V({
         ...t.value.single.createButton,
         events: {
           click: (C) => {
-            var D, _, I, U;
-            typeof ((_ = (D = t.value.single.createButton) == null ? void 0 : D.events) == null ? void 0 : _.click) == "function" && ((U = (I = t.value.single.createButton) == null ? void 0 : I.events) == null || U.click(C));
+            var H, _, I, U;
+            typeof ((_ = (H = t.value.single.createButton) == null ? void 0 : H.events) == null ? void 0 : _.click) == "function" && ((U = (I = t.value.single.createButton) == null ? void 0 : I.events) == null || U.click(C));
           }
         },
         hooks: {
@@ -446,8 +446,8 @@ const ce = /* @__PURE__ */ V({
         ...t.value.single.createAndNewButton,
         events: {
           click: (C) => {
-            var D, _, I, U;
-            typeof ((_ = (D = t.value.single.createAndNewButton) == null ? void 0 : D.events) == null ? void 0 : _.click) == "function" && ((U = (I = t.value.single.createAndNewButton) == null ? void 0 : I.events) == null || U.click(C)), l.push({
+            var H, _, I, U;
+            typeof ((_ = (H = t.value.single.createAndNewButton) == null ? void 0 : H.events) == null ? void 0 : _.click) == "function" && ((U = (I = t.value.single.createAndNewButton) == null ? void 0 : I.events) == null || U.click(C)), r.push({
               path: `/admin/web-items/${d.value}/new`,
               query: {
                 keepCreating: me()
@@ -474,7 +474,7 @@ const ce = /* @__PURE__ */ V({
         text: "Remove",
         events: {
           click: () => {
-            l.back();
+            r.back();
           }
         },
         ...t.value.single.dropButton
@@ -485,8 +485,8 @@ const ce = /* @__PURE__ */ V({
         p();
       });
     }), (m, f) => {
-      const C = x("lkt-item-crud"), D = x("lkt-loader");
-      return r(e) ? (h(), q("section", we, [
+      const C = D("lkt-item-crud"), H = D("lkt-loader");
+      return l(e) ? (h(), q("section", we, [
         k.value ? (h(), S(C, J({
           key: 0,
           modelValue: B.value,
@@ -498,8 +498,8 @@ const ce = /* @__PURE__ */ V({
         }, {
           readResource: "r-web-item",
           readData: { id: y.value },
-          mode: y.value > 0 ? r(G).Update : r(G).Create,
-          buttonNavVisibility: r(ae).Always,
+          mode: y.value > 0 ? l(G).Update : l(G).Create,
+          buttonNavVisibility: l(ae).Always,
           redirectOnCreate: ue,
           ...t.value.single,
           header: c.value,
@@ -507,11 +507,11 @@ const ce = /* @__PURE__ */ V({
           createAndNewButton: g.value,
           updateButton: M.value,
           dropButton: Q.value
-        }), null, 16, ["modelValue", "editing", "perms"])) : (h(), S(D, { key: 1 }))
+        }), null, 16, ["modelValue", "editing", "perms"])) : (h(), S(H, { key: 1 }))
       ])) : $("", !0);
     };
   }
-}), xe = () => {
+}), De = () => {
   N({
     url: "/translations",
     name: "ls-lkt-i18n",
@@ -527,7 +527,7 @@ const ce = /* @__PURE__ */ V({
     digToPerms: "perms",
     digToData: "item",
     mapData: (o) => new Z(o)
-  }), le({
+  }), re({
     url: "/translation",
     name: "mk-i18n",
     params: {
@@ -538,7 +538,7 @@ const ce = /* @__PURE__ */ V({
     },
     digToPerms: "perms",
     digToAutoReloadId: "item.id"
-  }), re({
+  }), le({
     url: "/translation/{id}",
     name: "up-i18n",
     params: {
@@ -578,7 +578,7 @@ const ce = /* @__PURE__ */ V({
     digToPerms: "perms",
     digToData: "item",
     mapData: (o) => o
-  }), le({
+  }), re({
     url: "/user/role",
     name: "mk-user-role",
     params: {
@@ -587,7 +587,7 @@ const ce = /* @__PURE__ */ V({
     },
     digToPerms: "perms",
     digToAutoReloadId: "item.id"
-  }), re({
+  }), le({
     url: "/user/role/{id}",
     name: "up-user-role",
     params: {
@@ -619,7 +619,7 @@ const ce = /* @__PURE__ */ V({
 };
 export {
   Pe as default,
-  xe as setupAdminTranslationsHttp,
+  De as setupAdminTranslationsHttp,
   Me as setupAdminUserRoleHttp,
   Re as setupLktVueAdminRoutes
 };
