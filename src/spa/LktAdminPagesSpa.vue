@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, inject, nextTick, onMounted, Ref, ref, watch} from "vue";
 import {
-    AppSize,
+    AppSize, ButtonConfig,
     ButtonType,
     ColumnConfig,
     ColumnType,
@@ -92,6 +92,20 @@ const header = computed(() => {
             icon: settings.value?.icon,
             tag: 'h1',
         }
+    }),
+    createButton = computed(() => {
+        //@ts-ignore
+        if (settings.value?.many?.createButton === false) return false;
+        return <ButtonConfig>{
+            icon: 'lkt-icn-more',
+            text: 'Add web page',
+            type: ButtonType.Anchor,
+            anchor: {
+                to: `/admin/web-pages/${type.value}/new`,
+            },
+            //@ts-ignore
+            ...settings.value.many?.createButton,
+        }
     });
 
 // const computedTitle = computed(() => {
@@ -127,13 +141,7 @@ onMounted(() => {
                     resource: 'ls-web-pages-type',
                     resourceData: filters,
                 },
-                createButton: {
-                    icon: 'lkt-icn-more',
-                    type: ButtonType.Anchor,
-                    anchor: {
-                        to: `/admin/web-pages/${type}/0`,
-                    }
-                },
+                createButton,
                 itemsContainerClass: appSize < AppSize.MD ? 'lkt-grid-1 xs-grid-style' : '',
                 accordion: {
                     contentClass: 'lkt-flex-column',
